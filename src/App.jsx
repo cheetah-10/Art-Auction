@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import AuctionDetails from "./components/auction/AuctionDetails";
 import AuctionPage from "./pages/AuctionPage";
+import BidHistoryPage from "./pages/BidHistoryPage";
 
 const router = createBrowserRouter([
 	{
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
 	{
 		path: "/auction/:id",
 		element: <AuctionDetails />,
+	},
+	{
+		path: "/auction/:id/bid-history",
+		element: <BidHistoryPage />,
 	},
 	{ path: "/", element: <div>Home</div> },
 	// { path: "/", element: <div>Home</div> },

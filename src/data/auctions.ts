@@ -8,6 +8,7 @@ export interface Auction {
 	endDate: string;
 	currentBid: number;
 	category: string;
+	tags: Array<string>;
 }
 
 export const auctionItems: Auction[] = [
@@ -18,10 +19,11 @@ export const auctionItems: Auction[] = [
 		description:
 			"Rare 1960s timepiece in pristine condition. Features automatic movement and original leather strap.",
 		artist: "Patek Philippe",
-		startDate: "2026-03-10",
-		endDate: "2026-03-20",
+		startDate: "2025-03-10",
+		endDate: "2025-03-20",
 		currentBid: 15000,
-		category: "Romanian",
+		category: "Painting",
+		tags: ["Classic", "Modern"],
 	},
 	{
 		id: 2,
@@ -33,7 +35,8 @@ export const auctionItems: Auction[] = [
 		startDate: "2026-03-12",
 		endDate: "2026-03-22",
 		currentBid: 3500,
-		category: "Islamic",
+		category: "Photography",
+		tags: ["Classic", "Modern"],
 	},
 	{
 		id: 3,
@@ -45,7 +48,8 @@ export const auctionItems: Auction[] = [
 		startDate: "2026-03-14",
 		endDate: "2026-03-24",
 		currentBid: 8200,
-		category: "Modern",
+		category: "Painting",
+		tags: ["Abstract", "Modern"],
 	},
 	{
 		id: 4,
@@ -57,7 +61,8 @@ export const auctionItems: Auction[] = [
 		startDate: "2026-03-11",
 		endDate: "2026-03-21",
 		currentBid: 5600,
-		category: "Niggers",
+		category: "Sculpture",
+		tags: ["Classic"],
 	},
 	{
 		id: 5,
@@ -69,7 +74,8 @@ export const auctionItems: Auction[] = [
 		startDate: "2026-03-13",
 		endDate: "2026-03-23",
 		currentBid: 125000,
-		category: "WOW",
+		category: "Sculpture",
+		tags: ["Classic", "Modern"],
 	},
 	{
 		id: 6,
@@ -81,6 +87,7 @@ export const auctionItems: Auction[] = [
 		startDate: "2026-03-15",
 		endDate: "2026-03-25",
 		currentBid: 2400,
-		category: "hehe",
+		category: "Digital Media",
+		tags: ["Classic"],
 	},
 ];

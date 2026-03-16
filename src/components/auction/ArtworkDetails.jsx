@@ -44,102 +44,107 @@ function ArtworkDetails({ auction }) {
 		}).format(amount);
 	};
 
+	const isActiveAuction = () => {
+		const endDate = new Date(auction.endDate);
+		const now = new Date();
+		return now < endDate;
+	};
+
 	return (
 		<div className="bg-background">
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-					{/* Image Section */}
-					<div className="aspect-square overflow-hidden rounded-lg border bg-card">
-						<img
-							src={auction.image}
-							alt={auction.title}
-							className="w-full h-full object-cover"
-						/>
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				{/* Image Section */}
+				<div className="aspect-square overflow-hidden rounded-lg border bg-card">
+					<img
+						src={auction.image}
+						alt={auction.title}
+						className="w-full h-full object-cover"
+					/>
+				</div>
+
+				{/* Details Section */}
+				<div className="flex flex-col gap-6">
+					<div>
+						<h1 className="mb-4 text-2xl">{auction.title}</h1>
+
+						<Badge active={isActiveAuction()}>
+							{isActiveAuction()
+								? "Active Auction"
+								: "Auction Ended"}
+						</Badge>
 					</div>
 
-					{/* Details Section */}
-					<div className="flex flex-col gap-6">
-						<div>
-							<h1 className="mb-4">{auction.title}</h1>
+					<div className="space-y-4">
+						<div className="flex items-start gap-3">
+							<User className="h-5 w-5 mt-1 text-muted-foreground" />
 
-							<Badge variant="secondary" className="mb-4">
-								Active Auction
-							</Badge>
-						</div>
+							<div>
+								<p className="text-sm text-muted-foreground">
+									Artist
+								</p>
 
-						<div className="space-y-4">
-							<div className="flex items-start gap-3">
-								<User className="h-5 w-5 mt-1 text-muted-foreground" />
-
-								<div>
-									<p className="text-sm text-muted-foreground">
-										Artist / Maker
-									</p>
-
-									<p>{auction.artist}</p>
-								</div>
-							</div>
-
-							<div className="flex items-start gap-3">
-								<Calendar className="h-5 w-5 mt-1 text-muted-foreground" />
-
-								<div>
-									<p className="text-sm text-muted-foreground">
-										Auction Period
-									</p>
-
-									<p>
-										{formatDate(
-											auction.startDate,
-										)}{" "}
-										-{" "}
-										{formatDate(auction.endDate)}
-									</p>
-								</div>
-							</div>
-
-							<div className="flex items-start gap-3">
-								<DollarSign className="h-5 w-5 mt-1 text-muted-foreground" />
-
-								<div>
-									<p className="text-sm text-muted-foreground">
-										Current Highest Bid
-									</p>
-
-									<p className="text-2xl font-semibold text-primary">
-										{formatCurrency(
-											auction.currentBid,
-										)}
-									</p>
-								</div>
+								<p>{auction.artist}</p>
 							</div>
 						</div>
 
-						<div className="border-t pt-6">
-							<h3 className="mb-2">Description</h3>
+						<div className="flex items-start gap-3">
+							<Calendar className="h-5 w-5 mt-1 text-muted-foreground" />
 
-							<p className="text-muted-foreground">
-								{auction.description}
-							</p>
+							<div>
+								<p className="text-sm text-muted-foreground">
+									Auction Period
+								</p>
+
+								<p>
+									{formatDate(auction.startDate)} -{" "}
+									{formatDate(auction.endDate)}
+								</p>
+							</div>
 						</div>
 
-						<div className="flex gap-4 mt-auto pt-6">
-							<Button
-								className="flex-1 bg-black text-white hover:opacity-75"
-								size={"lg"}
-							>
-								Place Bid
-							</Button>
+						<div className="flex items-start gap-3">
+							<DollarSign className="h-5 w-5 mt-1 text-muted-foreground" />
 
-							<Button
-								className="border-1 hover:bg-gray-300 "
-								size={"lg"}
-							>
-								Watch Item
-							</Button>
+							<div>
+								<p className="text-sm text-muted-foreground">
+									Current Highest Bid
+								</p>
+
+								<p className="text-2xl font-semibold text-primary">
+									{formatCurrency(
+										auction.currentBid,
+									)}
+								</p>
+							</div>
 						</div>
+					</div>
+
+					<div className="border-t pt-6">
+						<h3 className="mb-2">Description</h3>
+
+						<p className="text-muted-foreground">
+							{auction.description}
+						</p>
+					</div>
+
+					<div className="flex gap-4 mt-auto pt-6">
+						<Button
+							className="flex-1 bg-black text-white hover:opacity-75"
+							size={"lg"}
+						>
+							Place Bid
+						</Button>
+
+						<Button
+							className="border-1 hover:bg-gray-300 "
+							size={"lg"}
+						>
+							Watch Item
+						</Button>
 					</div>
 				</div>
 			</div>
+		</div>
 	);
 }
 
