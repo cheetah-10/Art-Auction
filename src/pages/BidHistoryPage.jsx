@@ -1,21 +1,21 @@
 import BidsLayout from "../components/auction/BidsLayout";
-
-
+import { ArrowLeft } from "lucide-react";
+import { Link, useParams } from "react-router";
 
 function BidHistoryPage() {
-	/* 
-		FETCH bids & auction & artwork 
-	*/
+	const { id: auctionId } = useParams();
 
-
-	// const bids = bidHistory;
 	return (
-		<div className="min-h-screen bg-background p-8">
-			<div className="max-w-7xl mx-auto">
+		<div className="min-h-screen p-8">
+			<div className="max-w-6xl mx-auto">
+			<Link to={`/auction/${auctionId}`} className="mb-6 flex items-center">
+				<ArrowLeft className="mr-2 h-4 w-4" />
+				Back to Listings
+			</Link>
 				<div className="mb-8">
 					<h1 className="text-2xl mb-2">Bid History</h1>
-					<p className="text-muted-foreground">
-						Browse our current collection of premium items
+					<p className="text-gray-500">
+						Current Auction Bids List
 					</p>
 				</div>
 

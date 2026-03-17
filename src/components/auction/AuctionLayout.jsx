@@ -1,5 +1,4 @@
 import AuctionFilter from "./AuctionFilter";
-// import { useState } from "react";
 import AuctionList from "./AuctionList";
 
 function AuctionLayout() {

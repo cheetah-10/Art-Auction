@@ -1,10 +1,24 @@
-import { ArrowLeft, Calendar, DollarSign, User } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button";
-import Badge from "../../ui/Badge.jsx";
+import Badge from "../../ui/AuctionStatus.jsx";
+import ArtworkData from "./ArtworkData.jsx";
+import { useState } from "react";
+import Modal from "../../ui/BidPopup.jsx";
+import BidPopUpBody from "./BidPopUpBody.jsx";
+import toast from "react-hot-toast";
+import AuctionStatus from "../../ui/AuctionStatus.jsx";
 
 function ArtworkDetails({ auction }) {
+	const [showPopup, setShowPopup] = useState(false);
+	const [bidAmount, setBidAmount] = useState("");
+	const {artwork, category, tags, winner} = auction
+	
+	const minBidAmount = auction.currentBid + 10;
+	const isBidValid = Number(bidAmount) >= minBidAmount;
+
 	const navigate = useNavigate();
+
 	if (!auction) {
 		return (
 			<div className="min-h-screen bg-background p-8 flex items-center justify-center">
@@ -20,35 +34,28 @@ function ArtworkDetails({ auction }) {
 		);
 	}
 
-	const formatDate = (dateString) => {
-		const date = new Date(dateString);
+	function handleSubmittedBid() {
+		console.log("Submitted yaay");
+		toast.success("Successfully toasted!");
+		// POST v1/api/bids
+		/*
+			{
+				user_id,
+				auction_id,
+				bid_amount,
+				timestamp,
+			}
+		*/
+		// POST REQUEST
 
-		return date.toLocaleDateString("en-US", {
-			year: "numeric",
+		setBidAmount("");
+	}
 
-			month: "long",
-
-			day: "numeric",
-		});
-	};
-
-	const formatCurrency = (amount) => {
-		return new Intl.NumberFormat("en-US", {
-			style: "currency",
-
-			currency: "USD",
-
-			minimumFractionDigits: 0,
-
-			maximumFractionDigits: 0,
-		}).format(amount);
-	};
-
-	const isActiveAuction = () => {
-		const endDate = new Date(auction.endDate);
+	function isActiveAuction() {
+		const endDate = new Date(auction.auction_end_time);
 		const now = new Date();
 		return now < endDate;
-	};
+	}
 
 	return (
 		<div className="bg-background">
@@ -56,8 +63,8 @@ function ArtworkDetails({ auction }) {
 				{/* Image Section */}
 				<div className="aspect-square overflow-hidden rounded-lg border bg-card">
 					<img
-						src={auction.image}
-						alt={auction.title}
+						src={artwork.image}
+						alt={artwork.title}
 						className="w-full h-full object-cover"
 					/>
 				</div>
@@ -65,83 +72,86 @@ function ArtworkDetails({ auction }) {
 				{/* Details Section */}
 				<div className="flex flex-col gap-6">
 					<div>
-						<h1 className="mb-4 text-2xl">{auction.title}</h1>
+						<h1 className="mb-4 text-2xl">{artwork.title}</h1>
 
-						<Badge active={isActiveAuction()}>
-							{isActiveAuction()
-								? "Active Auction"
-								: "Auction Ended"}
-						</Badge>
+						<AuctionStatus auction={auction} />
+						
 					</div>
 
-					<div className="space-y-4">
-						<div className="flex items-start gap-3">
-							<User className="h-5 w-5 mt-1 text-muted-foreground" />
+					<ArtworkData
+						auction={auction}
+						isActiveAuction={isActiveAuction}
+					/>
 
-							<div>
-								<p className="text-sm text-muted-foreground">
-									Artist
-								</p>
+					{/* Buttons */}
+					{isActiveAuction() && (
+						<div className="flex gap-4 mt-auto pt-6">
+							<Button
+								className="flex-1 bg-black text-white hover:opacity-75"
+								size={"lg"}
+								onClick={() => setShowPopup(true)}
+							>
+								Place Bid
+							</Button>
 
-								<p>{auction.artist}</p>
-							</div>
+							{/* Pop up */}
+							{showPopup && (
+								<Modal>
+									<Modal.Header>
+										Bid Amount
+									</Modal.Header>
+									<Modal.Body>
+										<BidPopUpBody
+											auction={auction}
+											bidAmount={bidAmount}
+											setBidAmount={
+												setBidAmount
+											}
+											minBidAmount={
+												minBidAmount
+											}
+										/>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button
+											disabled={!isBidValid}
+											className="bg-black text-white hover:opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+											size="lg"
+											onClick={() => {
+												handleSubmittedBid();
+												setShowPopup(false);
+											}}
+										>
+											Bid
+										</Button>
+										<Button
+											className="border hover:opacity-50"
+											size="lg"
+											onClick={() =>
+												setShowPopup(false)
+											}
+										>
+											CLOSE
+										</Button>
+									</Modal.Footer>
+								</Modal>
+							)}
+							{/* End Pop up */}
+
+							<Button
+								className="border hover:bg-gray-300 "
+								size={"lg"}
+							>
+								Watch Item
+							</Button>
+							<Button
+								className=" bg-green-500 text-white hover:bg-green-300"
+								size={"lg"}
+							>
+								Buy Now
+							</Button>
 						</div>
-
-						<div className="flex items-start gap-3">
-							<Calendar className="h-5 w-5 mt-1 text-muted-foreground" />
-
-							<div>
-								<p className="text-sm text-muted-foreground">
-									Auction Period
-								</p>
-
-								<p>
-									{formatDate(auction.startDate)} -{" "}
-									{formatDate(auction.endDate)}
-								</p>
-							</div>
-						</div>
-
-						<div className="flex items-start gap-3">
-							<DollarSign className="h-5 w-5 mt-1 text-muted-foreground" />
-
-							<div>
-								<p className="text-sm text-muted-foreground">
-									Current Highest Bid
-								</p>
-
-								<p className="text-2xl font-semibold text-primary">
-									{formatCurrency(
-										auction.currentBid,
-									)}
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div className="border-t pt-6">
-						<h3 className="mb-2">Description</h3>
-
-						<p className="text-muted-foreground">
-							{auction.description}
-						</p>
-					</div>
-
-					<div className="flex gap-4 mt-auto pt-6">
-						<Button
-							className="flex-1 bg-black text-white hover:opacity-75"
-							size={"lg"}
-						>
-							Place Bid
-						</Button>
-
-						<Button
-							className="border-1 hover:bg-gray-300 "
-							size={"lg"}
-						>
-							Watch Item
-						</Button>
-					</div>
+					)}
 				</div>
 			</div>
 		</div>
