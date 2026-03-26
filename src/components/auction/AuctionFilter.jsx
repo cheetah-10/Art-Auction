@@ -1,21 +1,12 @@
-// import { useState } from "react";
 import { useState } from "react";
 import Button from "../../ui/Button";
 import Dropdown from "../../ui/Dropdown";
 import { useSearchParams } from "react-router-dom";
-
-// Dummy l7d ma rbna yfrgha :)
-const categories = ["Painting", "Sculpture", "Digital Media", "Photography"];
-const tags = [
-	"Abstract",
-	"Modern",
-	"Classic",
-	"Surrealism",
-	"Pop Art",
-	"Minimalist",
-];
+import useFetchTags from "../../hooks/useFetchTags";
+import useFetchCategories from "../../hooks/useFetchCategories";
 
 function AuctionFilter() {
+	
 	/*
     FETCH CATEGORIES INTO categories Array -> will be passed to <Dropdown />
     FETCH TAGS INTO tags Array             -> will be passed to <Dropdown />
@@ -23,6 +14,9 @@ function AuctionFilter() {
     v1/api/category   # get all categories
     v1/api/tag        # get all tags
   */
+
+	const { tags } = useFetchTags();
+	const { categories } = useFetchCategories();
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -34,16 +28,16 @@ function AuctionFilter() {
 		searchParams.get("tags")?.split(",") || [],
 	);
 
-	const [searchQuery, setSearchQuery] = useState(
+	const [artistName, setArtistName] = useState(
 		searchParams.get("name") || "",
 	);
 
-	const handleApplyFilters = () => {
+	const handleApplyFilters = (artistName = "") => {
 		const currentParams = {};
 
 		// for searchbox value
-		if (searchQuery.trim() !== "") {
-			currentParams.name = searchQuery.trim();
+		if (artistName.trim() !== "") {
+			currentParams.name = artistName.trim();
 		}
 
 		// selected any checkboxes?
@@ -65,8 +59,11 @@ function AuctionFilter() {
 					type="text"
 					placeholder="Search by artist name..."
 					className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-					onChange={(e) => setSearchQuery(e.target.value)}
-					value={searchQuery}
+					onChange={(e) => {
+						setArtistName(e.target.value);
+						handleApplyFilters(e.target.value);
+					}}
+					value={artistName}
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							handleApplyFilters();
@@ -81,19 +78,21 @@ function AuctionFilter() {
 					selectedItems={selectedCategories}
 					setSelectedItems={setSelectedCategories}
 				>
-					Category
+					Categories
 				</Dropdown>
 
-				<Dropdown
-					itemsList={tags}
-					selectedItems={selectedTags}
-					setSelectedItems={setSelectedTags}
-				>
-					Tags
-				</Dropdown>
+				{
+					<Dropdown
+						itemsList={tags}
+						selectedItems={selectedTags}
+						setSelectedItems={setSelectedTags}
+					>
+						Tags
+					</Dropdown>
+				}
 
 				<Button
-					onClick={handleApplyFilters}
+					onClick={() => handleApplyFilters()}
 					size="lg"
 					className=" text-white bg-black hover:bg-gray-700 "
 				>
@@ -105,3 +104,25 @@ function AuctionFilter() {
 }
 
 export default AuctionFilter;
+
+/*
+
+if (e.target.value === "") {
+							// i'll need to delete the 'name' parameter only and fetch again
+							searchParams.delete("name");
+							
+							setSearchParams(searchParams);
+						
+							console.log(e.target.value);
+							
+							// fetch data whenever a user types artist's name
+							
+							handleApplyFilters();
+
+						// what if the user deleted the artist name? (there was a glitch where ?name=[first entered letter] idk why)
+						// what if a user applied another filter? (category or tags)
+
+							// and i gotta set searchParams to the new value and it's working now
+						}
+						setartistName(e.target.value);
+*/

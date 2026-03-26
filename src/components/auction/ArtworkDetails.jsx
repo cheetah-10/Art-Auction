@@ -1,20 +1,49 @@
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../ui/Button";
-import Badge from "../../ui/AuctionStatus.jsx";
 import ArtworkData from "./ArtworkData.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../ui/BidPopup.jsx";
 import BidPopUpBody from "./BidPopUpBody.jsx";
 import toast from "react-hot-toast";
-import AuctionStatus from "../../ui/AuctionStatus.jsx";
+import { useAuth } from "../../context/AuthProvider.jsx";
+import useActionLoginProtection from "../../hooks/useActionLoginProtection.js";
+import apiClient from "../../utils/apiClient.js";
+import { API } from "../../constants/endPoint.js";
+import useFetch from "../../hooks/useFetch.js";
 
 function ArtworkDetails({ auction }) {
+	const { data: myWatchList } = useFetch(`${API.USER.GET_MY_WATCHLIST}`);
 	const [showPopup, setShowPopup] = useState(false);
 	const [bidAmount, setBidAmount] = useState("");
-	const {artwork, category, tags, winner} = auction
-	
-	const minBidAmount = auction.currentBid + 10;
+	const [isWatchlisted, setIsWatchlisted] = useState(false);
+
+	console.log(isWatchlisted);
+	const { isAuthenticated } = useAuth();
+	const { id: auctionId } = useParams();
+
+	// Check if auction is added to watchlist
+	useEffect(
+		function () {
+			function checkWatchListed() {
+				console.log(myWatchList);
+				setIsWatchlisted(
+					myWatchList.some((e) => +e.auctionId === +auction.id),
+				);
+			}
+			checkWatchListed();
+		},
+		[myWatchList, auction.id],
+	);
+
+	// to protect buttons, this hook is used to return a function.
+	// pass the message to this function.
+	const actionLoginProtection = useActionLoginProtection();
+	const message = "Please log in to do this action";
+
+	const { artwork, currentBidAmount } = auction;
+
+	const minBidAmount = currentBidAmount + 10;
 	const isBidValid = Number(bidAmount) >= minBidAmount;
 
 	const navigate = useNavigate();
@@ -52,105 +81,136 @@ function ArtworkDetails({ auction }) {
 	}
 
 	function isActiveAuction() {
-		const endDate = new Date(auction.auction_end_time);
+		const endDate = new Date(auction.auctionEndTime);
 		const now = new Date();
 		return now < endDate;
 	}
 
+	function addToWatchlist() {
+		try {
+			apiClient.post(`${API.AUCTION.ADD_TO_WATCHLIST}${auctionId}`);
+			setIsWatchlisted(true);
+		} catch (error) {
+			toast.error(error.message);
+		}
+	}
+
+	function removeFromWatchlist() {
+		try {
+			apiClient.delete(`${API.AUCTION.ADD_TO_WATCHLIST}${auctionId}`);
+			setIsWatchlisted(false);
+		} catch (error) {
+			toast.error(error.message);
+		}
+	}
+
 	return (
-		<div className="bg-background">
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-				{/* Image Section */}
-				<div className="aspect-square overflow-hidden rounded-lg border bg-card">
-					<img
-						src={artwork.image}
-						alt={artwork.title}
-						className="w-full h-full object-cover"
-					/>
-				</div>
+		<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+			{/* Image Section */}
+			<div className="aspect-square overflow-hidden rounded-lg border bg-card">
+				<img
+					src={artwork.artworkImage}
+					alt={artwork.title}
+					className="w-full h-full object-cover"
+				/>
+			</div>
 
-				{/* Details Section */}
-				<div className="flex flex-col gap-6">
-					<div>
-						<h1 className="mb-4 text-2xl">{artwork.title}</h1>
+			{/* Details Section */}
+			<div className="flex flex-col gap-6">
+				<ArtworkData
+					auction={auction}
+					isActiveAuction={isActiveAuction}
+				/>
 
-						<AuctionStatus auction={auction} />
-						
-					</div>
-
-					<ArtworkData
-						auction={auction}
-						isActiveAuction={isActiveAuction}
-					/>
-
-					{/* Buttons */}
+				{/* Buttons */}
+				<div className="flex gap-4 mt-auto">
+					{/* placebid button */}
 					{isActiveAuction() && (
-						<div className="flex gap-4 mt-auto pt-6">
-							<Button
-								className="flex-1 bg-black text-white hover:opacity-75"
-								size={"lg"}
-								onClick={() => setShowPopup(true)}
-							>
-								Place Bid
-							</Button>
+						<Button
+							className="flex-1 bg-black text-white hover:opacity-75"
+							size={"lg"}
+							onClick={() => {
+								actionLoginProtection(message);
+								setShowPopup(isAuthenticated);
+							}}
+						>
+							Place Bid
+						</Button>
+					)}
 
-							{/* Pop up */}
-							{showPopup && (
-								<Modal>
-									<Modal.Header>
-										Bid Amount
-									</Modal.Header>
-									<Modal.Body>
-										<BidPopUpBody
-											auction={auction}
-											bidAmount={bidAmount}
-											setBidAmount={
-												setBidAmount
-											}
-											minBidAmount={
-												minBidAmount
-											}
-										/>
-									</Modal.Body>
-									<Modal.Footer>
-										<Button
-											disabled={!isBidValid}
-											className="bg-black text-white hover:opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-											size="lg"
-											onClick={() => {
-												handleSubmittedBid();
-												setShowPopup(false);
-											}}
-										>
-											Bid
-										</Button>
-										<Button
-											className="border hover:opacity-50"
-											size="lg"
-											onClick={() =>
-												setShowPopup(false)
-											}
-										>
-											CLOSE
-										</Button>
-									</Modal.Footer>
-								</Modal>
-							)}
-							{/* End Pop up */}
+					{/* pop up */}
+					{showPopup && (
+						<Modal>
+							<Modal.Header>Bid Amount</Modal.Header>
+							<Modal.Body>
+								<BidPopUpBody
+									auction={auction}
+									bidAmount={bidAmount}
+									setBidAmount={setBidAmount}
+									minBidAmount={minBidAmount}
+								/>
+							</Modal.Body>
+							<Modal.Footer>
+								<Button
+									disabled={!isBidValid}
+									className="bg-black text-white hover:opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+									size="lg"
+									onClick={() => {
+										handleSubmittedBid();
+										setShowPopup(false);
+									}}
+								>
+									Bid
+								</Button>
+								<Button
+									className="border hover:opacity-50"
+									size="lg"
+									onClick={() => setShowPopup(false)}
+								>
+									CLOSE
+								</Button>
+							</Modal.Footer>
+						</Modal>
+					)}
 
-							<Button
-								className="border hover:bg-gray-300 "
-								size={"lg"}
-							>
-								Watch Item
-							</Button>
-							<Button
-								className=" bg-green-500 text-white hover:bg-green-300"
-								size={"lg"}
-							>
-								Buy Now
-							</Button>
-						</div>
+					{/* watchlist button */}
+					{!isWatchlisted && (
+						<Button
+							className="border hover:bg-gray-300 "
+							size={"lg"}
+							onClick={() => {
+								actionLoginProtection(message);
+								addToWatchlist();
+							}}
+						>
+							Watch Item
+						</Button>
+					)}
+
+					{isWatchlisted && (
+						<Button
+							className="border bg-amber-500 text-white hover:bg-amber-700 "
+							size={"lg"}
+							onClick={() => {
+								actionLoginProtection(message);
+								removeFromWatchlist();
+							}}
+						>
+							Remove From Watchlist
+						</Button>
+					)}
+
+					{/* buy now button */}
+					{isActiveAuction() && (
+						<Button
+							className=" bg-green-500 text-white hover:bg-green-300"
+							size={"lg"}
+							onClick={() => {
+								actionLoginProtection(message);
+							}}
+						>
+							Buy Now
+						</Button>
 					)}
 				</div>
 			</div>

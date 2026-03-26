@@ -4,7 +4,7 @@ function BidPopUpBody({ auction, bidAmount, setBidAmount, minBidAmount }) {
 			<div className="space-y-4 py-4">
 				<p className="text-sm text-gray-500">
 					Current highest bid is{" "}
-					<strong>${auction.currentBid}</strong>. Your bid must
+					<strong>${auction.currentBidAmount}</strong>. Your bid must
 					be at least <strong>${minBidAmount}</strong>.
 				</p>
 

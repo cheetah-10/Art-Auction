@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
 import AuctionCard from "./AuctionCard";
 import { useSearchParams } from "react-router-dom";
+import useFetchAuctions from "../../hooks/useFetchAuctions";
 
 function AuctionList() {
 	const [searchParams] = useSearchParams();
-	const [auctions, setAuctions] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState("");
 
 	const categoryParam = searchParams.get("category");
 	const tagsParam = searchParams.get("tags");
@@ -18,41 +15,8 @@ function AuctionList() {
 		v1/api/auction/?name=studio_maya&category=Painting,Sculpture&tags=Abstract,Minimalist
 	*/
 
-	useEffect(
-		function () {
-			const controller = new AbortController();
-
-			async function getAuctions() {
-				try {
-					const queryString = searchParams.toString();
-
-					const res = await fetch(
-						`http://localhost:3000/auctions${queryString ? `?${queryString}` : ""}`,
-					);
-
-					// faild to fetch
-					if (!res.ok) {
-						throw new Error(
-							`4of el backend yahandasa :) (${res.status})`,
-						);
-					}
-
-					const data = await res.json();
-					setAuctions(data);
-				} catch (err) {
-					setError(`${err.message}`);
-				} finally {
-					setIsLoading(false);
-				}
-			}
-			getAuctions();
-			return function () {
-				controller.abort();
-			};
-		},
-		[searchParams],
-	);
-
+	const { isLoading, error, auctions } = useFetchAuctions();
+	// console.log(auctions)
 	let auctionFilteredList = auctions;
 
 	if (nameParam) {
@@ -77,7 +41,7 @@ function AuctionList() {
 
 	const sortedAuctions = [...auctionFilteredList].sort((a, b) => {
 		return (
-			new Date(b.auction_start_time) - new Date(a.auction_start_time)
+			new Date(b.auctionStartTime) - new Date(a.auctionStartTime)
 		);
 	});
 
@@ -91,7 +55,7 @@ function AuctionList() {
 				!error &&
 				sortedAuctions.map((auction) => (
 					<AuctionCard
-						key={auction.auction_id}
+						key={auction.auctionId}
 						auction={auction}
 					/>
 				))}

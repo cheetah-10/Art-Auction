@@ -12,12 +12,18 @@
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.2.1",
+		"axios": "^1.13.6",
+		"js-cookie": "^3.0.5",
 		"json-server": "^1.0.0-beta.13",
+		"jwt-decode": "^4.0.0",
 		"lucide-react": "^0.577.0",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
+		"react-hook-form": "^7.71.2",
 		"react-hot-toast": "^2.6.0",
 		"react-router-dom": "^7.13.1",
+		"react-signalr": "^0.2.24",
+		"react-use-websocket": "^4.13.0",
 		"tailwindcss": "^4.2.1"
 	},
 	"devDependencies": {

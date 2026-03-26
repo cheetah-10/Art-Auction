@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { API } from "../constants/endPoint";
 
-function useFetchBids() {
-	const { id: auctionId } = useParams();
-	const [bids, setBids] = useState([]);
-	const [isLoading, setIsLoading] = useState({});
+function useFetchTags() {
+	const [tags, setTags] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState("");
 
 	useEffect(function () {
-		async function getBids() {
+		async function getTags() {
 			try {
-				const res = await fetch(
-					`${API.BIDS.GET_BIDS_BY_AUCTION_ID}${auctionId}`,
-				);
+				const res = await fetch(`${API.TAG.GET_ALL_TAGS}`);
 
 				// faild to fetch
 				if (!res.ok) {
@@ -23,18 +19,18 @@ function useFetchBids() {
 				}
 
 				const data = await res.json();
-				setBids(data);
-				return data;
+				setTags(data);
 			} catch (err) {
 				setError(`${err.message}`);
 			} finally {
 				setIsLoading(false);
 			}
 		}
-		getBids();
+
+		getTags();
 	}, []);
 
-	return { bids, isLoading, error };
+	return { isLoading, error, tags };
 }
 
-export default useFetchBids;
+export default useFetchTags;

@@ -1,29 +1,29 @@
-import AuctionLayout from "../components/auction/AuctionLayout";
+import WatchlistLayout from "../components/auction/WatchlistLayout";
 import { useAuth } from "../context/AuthProvider";
 import Navbar from "../ui/Navbar";
 
-export default function AuctionPage() {
-	const { user } = useAuth();
-	console.log(user);
-	
+function WatchlistPage() {
+  const {user} = useAuth();
+  
 	return (
 		<>
 			<Navbar />
-			<div className="min-h-screen bg-background p-8">
+			<div className="max-h-full p-3">
 				<div className="max-w-7xl mx-auto">
 					<div className="mb-8">
 						<h1 className="text-2xl mb-2">
-							Auction Listings
+							{user.name}'s Watchlist
 						</h1>
 						<p className="text-muted-foreground">
-							Browse our current collection of premium
+							Browse your preferred collection of premium
 							items
 						</p>
 					</div>
-
-					<AuctionLayout />
+					<WatchlistLayout />
 				</div>
 			</div>
 		</>
 	);
 }
+
+export default WatchlistPage;

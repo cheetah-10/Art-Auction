@@ -1,6 +1,6 @@
 function Bid({ bid, isHighest }) {
 	console.log(bid);
-	const { user_name, bid_amount, timestamp } = bid;
+	const { bidderName, bidAmount, timestamp } = bid;
 
 	// "Ahmed Tharwat" -> "AT"
 	const getInitials = (name) => {
@@ -23,14 +23,14 @@ function Bid({ bid, isHighest }) {
 			<div className="flex items-center gap-4">
 				{/* Avatar */}
 				<div className="flex items-center justify-center w-12 h-12 text-sm font-semibold text-gray-700 bg-gray-100 rounded-full shrink-0">
-					{getInitials(user_name)}
+					{getInitials(bidderName)}
 				</div>
 
 				{/* User Info */}
 				<div className="flex flex-col">
 					<div className="flex items-center gap-2">
 						<span className="font-semibold text-gray-900">
-							{user_name}
+							{bidderName}
 						</span>
 						{/* Conditional Highest Bid Badge */}
 						{isHighest && (
@@ -60,7 +60,7 @@ function Bid({ bid, isHighest }) {
 
 			{/* Price */}
 			<div className="text-xl font-bold text-gray-900">
-				${bid_amount.toLocaleString()}
+				${bidAmount.toLocaleString()}
 			</div>
 		</div>
 	);

@@ -1,5 +1,5 @@
 function AuctionStatus({ auction, className = "" }) {
-	const endDate = new Date(auction.auction_end_time);
+	const endDate = new Date(auction.auctionEndTime);
 	const now = new Date();
 
 	const isActive = now < endDate;
