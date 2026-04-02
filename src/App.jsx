@@ -8,6 +8,7 @@ import {AuthProvider} from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import WatchListPage from "./pages/WatchListPage";
+import ArtistsSubmitionPage from "./pages/ArtistsSubmitionPage";
 
 const router = createBrowserRouter([
 	{
@@ -26,9 +27,13 @@ const router = createBrowserRouter([
 		path: "/watchlist",
 		element: <WatchListPage />,
 	},
+	{
+		path: "/artistApplication",
+		element: <ArtistsSubmitionPage />,
+	},
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/signup", element: <SignupPage /> },
-	{ path: "/", element: <HomePage /> },
+	{ path: "/", element: <LoginPage /> },
 	{ path: "*", element: <div>NOT FOUND</div> },
 ]);
 

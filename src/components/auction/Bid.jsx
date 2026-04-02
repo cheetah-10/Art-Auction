@@ -1,5 +1,5 @@
 function Bid({ bid, isHighest }) {
-	console.log(bid);
+	// console.log(bid);
 	const { bidderName, bidAmount, timestamp } = bid;
 
 	// "Ahmed Tharwat" -> "AT"

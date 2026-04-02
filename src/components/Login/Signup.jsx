@@ -9,7 +9,8 @@ function Signup() {
 		formState: { errors, isSubmitting },
 	} = useForm({
 		defaultValues: {
-			name: "Ahmed Tharwat",
+			firstName: "Ahmed",
+			lastName: "Tharwat",
 			email: "ahmedlordexg@gmail.com",
 			password: "123456789",
 		},
@@ -17,7 +18,9 @@ function Signup() {
 
 	async function onSubmit(data) {
 		console.log("Form Data Ready for API:", data);
-		
+
+		data.name = `${data.firstName} ${data.lastName}`;
+
 		data.status = data.role === USER_ROLES.BUYER ? "APPROVED" : "PENDING";
 
 		fetch("http://localhost:3000/users", {
@@ -49,33 +52,64 @@ function Signup() {
 					className="mt-8 space-y-4"
 					onSubmit={handleSubmit(onSubmit)}
 				>
-					{/* Name Field */}
+					{/* First Name Field */}
 					<div>
 						<label
-							htmlFor="name"
+							htmlFor="firstName"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Full Name
+							First Name
 						</label>
 						<input
-							id="name"
+							id="firstName"
 							type="text"
-							className={`mt-1 block w-full px-3 py-2 border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900`}
-							{...register("name", {
-								required: "Full name is required",
+							className={`mt-1 block w-full px-3 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900`}
+							{...register("firstName", {
+								required: "First name is required",
 								minLength: {
-									value: 3,
-									message: "Name must be at least 3 characters",
+									value: 1,
+									message: "First name must be at least 1 character",
 								},
 								maxLength: {
 									value: 16,
-									message: "Name must be at most 16 characters",
+									message: "First name must be at most 16 characters",
 								},
 							})}
 						/>
-						{errors.name && (
+						{errors.firstName && (
 							<p className="mt-1 text-xs text-red-500">
-								{errors.name.message}
+								{errors.firstName.message}
+							</p>
+						)}
+					</div>
+
+					{/* Last Name Field */}
+					<div>
+						<label
+							htmlFor="lastName"
+							className="block text-sm font-medium text-gray-700"
+						>
+							Last Name
+						</label>
+						<input
+							id="lastName"
+							type="text"
+							className={`mt-1 block w-full px-3 py-2 border ${errors.lastName ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900`}
+							{...register("lastName", {
+								required: "Last name is required",
+								minLength: {
+									value: 1,
+									message: "Last name must be at least 1 character",
+								},
+								maxLength: {
+									value: 16,
+									message: "Last name must be at most 16 characters",
+								},
+							})}
+						/>
+						{errors.lastName && (
+							<p className="mt-1 text-xs text-red-500">
+								{errors.lastName.message}
 							</p>
 						)}
 					</div>
@@ -123,8 +157,12 @@ function Signup() {
 									required: "Role is required",
 								})}
 							>
-								<option value={USER_ROLES.BUYER}>{USER_ROLES.BUYER}</option>
-								<option value={USER_ROLES.ARTIST}>{USER_ROLES.ARTIST}</option>
+								<option value={USER_ROLES.BUYER}>
+									{USER_ROLES.BUYER}
+								</option>
+								<option value={USER_ROLES.ARTIST}>
+									{USER_ROLES.ARTIST}
+								</option>
 							</select>
 						</div>
 					</div>

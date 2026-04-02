@@ -2,29 +2,26 @@ import { useEffect, useState } from "react";
 import { WS_URL } from "../constants/constants";
 import * as signalR from "@microsoft/signalr";
 import { WEB_SOCKET } from "../constants/endPoint";
+import toast from "react-hot-toast";
 
 function useBidWebsocket(auction, isActiveAuction) {
 	const [currentBid, setCurrentBid] = useState(auction.currentBidAmount);
 
 	useEffect(() => {
-		// 2. Build the connection.
-		// Ensure WS_URL points to your .NET Hub endpoint (e.g., "http://localhost:5000/bidAction")
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl(`${WS_URL}${WEB_SOCKET.bidPlaced}`)
+			.configureLogging(signalR.LogLevel.None)
 			.withAutomaticReconnect()
 			.build();
 
-		// 3. Start the connection and attach event listeners
 		const startConnection = async () => {
 			try {
 				await connection.start();
-				console.log("SignalR Connected to Auction:", auction.id);
 
-				// Listen for the specific backend event containing the ID and the new amount
 				connection.on("PlaceBid", (newBid) => {
 					if (+newBid.auctionId === +auction.id) {
 						setCurrentBid(newBid.bidAmount);
-						console.log(newBid);
+						toast.success(`A bid was placed`, {position: "bottom-right"});
 					}
 				});
 			} catch (err) {
@@ -36,7 +33,6 @@ function useBidWebsocket(auction, isActiveAuction) {
 			startConnection();
 		}
 
-		// 4. Memory management: Teardown connection on unmount
 		return () => {
 			if (connection.state === signalR.HubConnectionState.Connected) {
 				connection.off("Bidplaced");

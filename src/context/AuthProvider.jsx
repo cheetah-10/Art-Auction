@@ -19,7 +19,7 @@ function AuthProvider({ children }) {
 				password,
 			});
 
-			console.log(response);
+			// console.log(response);
 
 			const data = response.data;
 
@@ -30,9 +30,9 @@ function AuthProvider({ children }) {
 			setUser(data.user);
 			setIsAuthenticated(true);
 		} catch (err) {
-			if (err.status === 401)
-				throw new Error(`Wrong Credentials. ${err.status}`);
-			else throw new Error(`${err.message}`);
+			throw new Error(
+				`${err.response.data?.message || "Wrong Credentials."}`,
+			);
 		} finally {
 			setIsLoading(false);
 		}
@@ -46,34 +46,6 @@ function AuthProvider({ children }) {
 		toast.success("Sad to see you go :(( xd");
 	}
 
-	// async function login(email, password) {
-	// 	setIsLoading(true);
-
-	// 	try {
-	// 		const response = await apiClient.post(API.LOGIN, {
-	// 			email,
-	// 			password,
-	// 		});
-
-	// 		const data = response.data;
-
-	// 		// Save the token to localStorage
-	// 		localStorage.setItem("authToken", data.token);
-	// 		setIsAuthenticated(true);
-	// 	} catch (error) {
-	// 		console.error("Error during login:", error);
-	// 		toast.error(`Error during login:${error.message}`);
-	// 	} finally {
-	// 		setIsLoading(false);
-	// 	}
-	// }
-
-	// 2. The logout function
-	// function logout() {
-	// 	localStorage.removeItem("authToken");
-	// 	setIsAuthenticated(false);
-	// 	toast.success("Sad to see you go :(( xd");
-	// }
 	return (
 		<AuthContext.Provider
 			value={{ user, isAuthenticated, isLoading, login, logout }}

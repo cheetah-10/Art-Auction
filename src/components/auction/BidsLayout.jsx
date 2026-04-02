@@ -1,8 +1,11 @@
 import Bid from "./Bid";
-import useFetchBids from "../../hooks/useFetchBids";
+import useFetch from "../../hooks/useFetch";
+import { useParams } from "react-router-dom";
+import { API } from "../../constants/endPoint";
 
 function BidsLayout() {
-	const { bids, isLoading, error } = useFetchBids();
+const { id: auctionId } = useParams();
+	const { data: bids, isLoading, error } = useFetch(`${API.BIDS.GET_BIDS_BY_AUCTION_ID}${auctionId}`);
 	
 	return (
 			<div>

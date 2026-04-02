@@ -2,9 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
 const Navbar = () => {
-	const { isAuthenticated, logout } = useAuth();
-
-	// console.log(user.role);
+	const { user, isAuthenticated, logout } = useAuth();
 
 	const navItemBaseClass =
 		"px-4 py-2 text-sm font-medium rounded-lg transition-colors";
@@ -12,10 +10,7 @@ const Navbar = () => {
 	return (
 		<nav className="flex items-center justify-between px-6 py-3 w-fullborder-b bg-white shadow-sm sticky top-0 z-40">
 			<div className="flex items-center space-x-8">
-				<Link
-					to="/"
-					className="flex items-center space-x-2 cursor-pointer"
-				>
+				<Link className="flex items-center space-x-2 cursor-pointer">
 					<span className="text-lg font-bold text-gray-900 tracking-tight">
 						ArtAuction
 					</span>
@@ -23,14 +18,7 @@ const Navbar = () => {
 
 				{/* Primary Navigation */}
 				<div className="hidden md:flex items-center space-x-2">
-					<NavLink
-						to="/"
-						className={({ isActive }) =>
-							`${navItemBaseClass} ${isActive ? "bg-gray-100/80 text-gray-900" : "text-gray-700 hover:text-gray-900 hover:bg-white/60"}`
-						}
-					>
-						Home
-					</NavLink>
+					{/* Auction Button */}
 					<NavLink
 						to="/auction"
 						className={({ isActive }) =>
@@ -39,6 +27,8 @@ const Navbar = () => {
 					>
 						Auctions
 					</NavLink>
+
+					{/* Watchlist Button */}
 					{isAuthenticated && (
 						<NavLink
 							to="/watchlist"
@@ -47,6 +37,18 @@ const Navbar = () => {
 							}
 						>
 							Watchlist
+						</NavLink>
+					)}
+
+					{/* Artists Button */}
+					{isAuthenticated && user.role.includes("admin") && (
+						<NavLink
+							to="/artistApplication"
+							className={({ isActive }) =>
+								`${navItemBaseClass} ${isActive ? "bg-gray-100/80 text-gray-900" : "text-gray-700 hover:text-gray-900 hover:bg-white/60"}`
+							}
+						>
+							Artists
 						</NavLink>
 					)}
 				</div>
@@ -71,6 +73,7 @@ const Navbar = () => {
 						Sign Up
 					</Link>
 				)}
+
 				{isAuthenticated && (
 					<Link
 						to="/login"

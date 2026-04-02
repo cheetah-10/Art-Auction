@@ -28,7 +28,12 @@ apiClient.interceptors.response.use(
 		const status = error.response?.status;
 		const isLoginRequest = error.config?.url?.includes(API.LOGIN);
 
+		console.log(error);
+
 		switch (status) {
+			case 400:
+				console.log(error)
+				break;
 			case 401:
 				// if user is not logging in (like entering /watchlist that has the user to be logged in)
 				if (!isLoginRequest) {
@@ -43,9 +48,7 @@ apiClient.interceptors.response.use(
 				break;
 
 			case 404:
-				toast.error("Not found 404.");
 				break;
-
 			case 500:
 				// toast.error(
 				// 	"Something went wrong on the server. Please try again.",
@@ -59,7 +62,7 @@ apiClient.interceptors.response.use(
 				}
 				break;
 		}
-		return Promise.reject(error.toJSON());
+		return Promise.reject(error);
 	},
 );
 

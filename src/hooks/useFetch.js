@@ -6,21 +6,28 @@ function useFetch(url) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState("");
 
-	useEffect(function () {
-		async function getData() {
-			try {
-				const res = await apiClient.get(url);
-				const data = res.data;
-
-				setData(data);
-			} catch (err) {
-				setError(`${err.message}`);
-			} finally {
+	useEffect(
+		function () {
+			if (!url) {
 				setIsLoading(false);
+				return;
 			}
-		}
-		getData();
-	}, []);
+			async function getData() {
+				try {
+					const res = await apiClient.get(url);
+					const data = res.data;
+					
+					setData(data);
+				} catch (err) {
+					setError(`${err.message}`);
+				} finally {
+					setIsLoading(false);
+				}
+			}
+			getData();
+		},
+		[url],
+	);
 
 	return { isLoading, error, data };
 }

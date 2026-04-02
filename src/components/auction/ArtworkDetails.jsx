@@ -13,23 +13,29 @@ import { API } from "../../constants/endPoint.js";
 import useFetch from "../../hooks/useFetch.js";
 
 function ArtworkDetails({ auction }) {
-	const { data: myWatchList } = useFetch(`${API.USER.GET_MY_WATCHLIST}`);
 	const [showPopup, setShowPopup] = useState(false);
 	const [bidAmount, setBidAmount] = useState("");
 	const [isWatchlisted, setIsWatchlisted] = useState(false);
+	const { artwork, currentBidAmount } = auction;
+	const [maxCurrnetBid, setMaxCurrnetBid] = useState(currentBidAmount);
 
-	console.log(isWatchlisted);
-	const { isAuthenticated } = useAuth();
+	const { user, isAuthenticated } = useAuth();
 	const { id: auctionId } = useParams();
+
+	const { data: myWatchList } = useFetch(
+		isAuthenticated ? API.USER.GET_MY_WATCHLIST : null,
+	);
 
 	// Check if auction is added to watchlist
 	useEffect(
 		function () {
 			function checkWatchListed() {
-				console.log(myWatchList);
-				setIsWatchlisted(
-					myWatchList.some((e) => +e.auctionId === +auction.id),
-				);
+				if (isAuthenticated)
+					setIsWatchlisted(
+						myWatchList.some(
+							(e) => +e.auctionId === +auction.id,
+						),
+					);
 			}
 			checkWatchListed();
 		},
@@ -41,9 +47,7 @@ function ArtworkDetails({ auction }) {
 	const actionLoginProtection = useActionLoginProtection();
 	const message = "Please log in to do this action";
 
-	const { artwork, currentBidAmount } = auction;
-
-	const minBidAmount = currentBidAmount + 10;
+	const minBidAmount = +maxCurrnetBid + 10;
 	const isBidValid = Number(bidAmount) >= minBidAmount;
 
 	const navigate = useNavigate();
@@ -64,19 +68,27 @@ function ArtworkDetails({ auction }) {
 	}
 
 	function handleSubmittedBid() {
-		console.log("Submitted yaay");
-		toast.success("Successfully toasted!");
+		apiClient
+			.post(`${API.BIDS.POST_NEW_BID}`, {
+				userId: user.id,
+				auctionId: auctionId,
+				bidAmount: bidAmount,
+				timestamp: new Date().toISOString(),
+			})
+			.catch((err) => console.log(err.response));
+
 		// POST v1/api/bids
 		/*
-			{
-				user_id,
-				auction_id,
-				bid_amount,
-				timestamp,
+		{
+			user_id,
+			auction_id,
+			bid_amount,
+			timestamp,
 			}
-		*/
+			*/
 		// POST REQUEST
 
+		setMaxCurrnetBid(bidAmount);
 		setBidAmount("");
 	}
 
@@ -87,12 +99,15 @@ function ArtworkDetails({ auction }) {
 	}
 
 	function addToWatchlist() {
-		try {
-			apiClient.post(`${API.AUCTION.ADD_TO_WATCHLIST}${auctionId}`);
-			setIsWatchlisted(true);
-		} catch (error) {
-			toast.error(error.message);
-		}
+		if (isAuthenticated)
+			try {
+				apiClient.post(
+					`${API.AUCTION.ADD_TO_WATCHLIST}${auctionId}`,
+				);
+				setIsWatchlisted(true);
+			} catch (error) {
+				toast.error(error.message);
+			}
 	}
 
 	function removeFromWatchlist() {
@@ -144,10 +159,10 @@ function ArtworkDetails({ auction }) {
 							<Modal.Header>Bid Amount</Modal.Header>
 							<Modal.Body>
 								<BidPopUpBody
-									auction={auction}
 									bidAmount={bidAmount}
 									setBidAmount={setBidAmount}
 									minBidAmount={minBidAmount}
+									maxCurrnetBid={maxCurrnetBid}
 								/>
 							</Modal.Body>
 							<Modal.Footer>

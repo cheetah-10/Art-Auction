@@ -2,11 +2,10 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 import Dropdown from "../../ui/Dropdown";
 import { useSearchParams } from "react-router-dom";
-import useFetchTags from "../../hooks/useFetchTags";
-import useFetchCategories from "../../hooks/useFetchCategories";
+import useFetch from "../../hooks/useFetch";
+import { API } from "../../constants/endPoint";
 
 function AuctionFilter() {
-	
 	/*
     FETCH CATEGORIES INTO categories Array -> will be passed to <Dropdown />
     FETCH TAGS INTO tags Array             -> will be passed to <Dropdown />
@@ -15,8 +14,10 @@ function AuctionFilter() {
     v1/api/tag        # get all tags
   */
 
-	const { tags } = useFetchTags();
-	const { categories } = useFetchCategories();
+	const { data: tags } = useFetch(`${API.TAG.GET_ALL_TAGS}`);
+	const { data: categories } = useFetch(
+		`${API.CATEGORY.GET_ALL_CATEGORIES}`,
+	);
 
 	const [searchParams, setSearchParams] = useSearchParams();
 

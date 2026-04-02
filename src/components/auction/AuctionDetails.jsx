@@ -1,11 +1,17 @@
 import ArtworkDetails from "./ArtworkDetails.jsx";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, History } from "lucide-react";
 import Navbar from "../../ui/Navbar.jsx";
-import useFetchAuctionById from "../../hooks/useFetchAuctionById.js";
+import useFetch from "../../hooks/useFetch.js";
+import { API } from "../../constants/endPoint.js";
 
 export default function AuctionDetails() {
-	const { auction, isLoading, error } = useFetchAuctionById();
+	const { id: auctionId } = useParams();
+	const {
+		data: auction,
+		isLoading,
+		error,
+	} = useFetch(`${API.AUCTION.GET_AUCTION_BY_ID}${auctionId}`);
 
 	return (
 		<>

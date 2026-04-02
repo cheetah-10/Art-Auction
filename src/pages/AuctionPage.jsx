@@ -1,11 +1,7 @@
 import AuctionLayout from "../components/auction/AuctionLayout";
-import { useAuth } from "../context/AuthProvider";
 import Navbar from "../ui/Navbar";
 
 export default function AuctionPage() {
-	const { user } = useAuth();
-	console.log(user);
-	
 	return (
 		<>
 			<Navbar />
