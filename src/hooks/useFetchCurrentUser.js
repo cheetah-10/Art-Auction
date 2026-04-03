@@ -2,44 +2,38 @@ import { useEffect, useState } from "react";
 import apiClient from "../utils/apiClient";
 import { API } from "../constants/endPoint";
 
-function useFetchCurrentUser() {
-	// get user from localstorage if exists
-	const [user, setUser] = useState(() => {
-		const stored = localStorage.getItem("authUser");
-		return stored ? JSON.parse(stored) : null;
-	});
-
-	const [isAuthenticated, setIsAuthenticated] = useState(
-		() => !!localStorage.getItem("authToken"),
-	);
-
-	// there is token and no user
+function useFetchCurrentUser(setIsAuthenticated, setIsLoading) {
+const [user, setUser] = useState(null);
 	useEffect(() => {
-		const token = localStorage.getItem("authToken");
-		if (!token) return; // no token
-
-		// If we already hydrated from localStorage, no need to re-fetch
-		if (user) return;
-
 		async function getUser() {
+			const isLoggedIn = localStorage.getItem("isLoggedIn");
+			if (!isLoggedIn) {
+				setIsAuthenticated(false);
+				setIsLoading(false);
+				return;
+			}
+
 			try {
 				const response = await apiClient.get(API.USER.GET_USER);
-				const data = response.data;
-				setUser(data.user);
-				localStorage.setItem("authUser", JSON.stringify(data.user));
+				const user = response.data;
+
+				// console.log("=====================");
+				// console.log(user);
+				// console.log("=====================");
+
+				setUser(user);
 				setIsAuthenticated(true);
 			} catch {
 				// Token is invalid (expired)
-				localStorage.removeItem("authToken");
-				localStorage.removeItem("authUser");
+				localStorage.removeItem("isLoggedIn");
 				setIsAuthenticated(false);
 			}
 		}
 
 		getUser();
 	}, []);
-
-	return { user, setUser, isAuthenticated, setIsAuthenticated };
+	
+	return {user, setUser}
 }
 
 export default useFetchCurrentUser;

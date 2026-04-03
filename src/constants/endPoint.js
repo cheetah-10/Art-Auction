@@ -7,10 +7,11 @@ export const API = {
 		ADD_TO_WATCHLIST: `${BACKEND_PORT}/api/watchlist/`,
 	},
 
-	LOGIN: `${BACKEND_PORT}/Account/Login`,
+	LOGIN: `${BACKEND_PORT}/account/login`,
+	LOGOUT: `${BACKEND_PORT}/account/logout`,
 
 	USER: {
-		GET_USER: `${BACKEND_PORT}/me`,
+		GET_USER: `${BACKEND_PORT}/account/me`,
 		GET_MY_WATCHLIST: `${BACKEND_PORT}/api/watchlist`,
 	},
 
