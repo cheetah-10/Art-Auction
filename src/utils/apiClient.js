@@ -7,19 +7,20 @@ const apiClient = axios.create({
 	headers: {
 		"Content-Type": "application/json",
 	},
+	withCredentials: true,
 });
 
-// attach token to every request
-apiClient.interceptors.request.use(
-	(config) => {
-		const token = localStorage.getItem("authToken");
-		if (token) {
-			config.headers["Authorization"] = `Bearer ${token}`;
-		}
-		return config;
-	},
-	(error) => Promise.reject(error),
-);
+// // attach token to every request
+// apiClient.interceptors.request.use(
+// 	(config) => {
+// 		const token = localStorage.getItem("authToken");
+// 		if (token) {
+// 			config.headers["Authorization"] = `Bearer ${token}`;
+// 		}
+// 		return config;
+// 	},
+// 	(error) => Promise.reject(error),
+// );
 
 apiClient.interceptors.response.use(
 	(response) => response,
@@ -27,19 +28,17 @@ apiClient.interceptors.response.use(
 	(error) => {
 		const status = error.response?.status;
 		const isLoginRequest = error.config?.url?.includes(API.LOGIN);
+		const isGetUser = error.config?.url?.includes(API.USER.GET_USER);
 
-		console.log(error);
+		// console.log(error);
 
 		switch (status) {
 			case 400:
-				console.log(error)
+				console.log(error);
 				break;
 			case 401:
 				// if user is not logging in (like entering /watchlist that has the user to be logged in)
-				if (!isLoginRequest) {
-					localStorage.removeItem("authToken");
-					localStorage.removeItem("authUser");
-					window.location.href = "/login";
+				if (!isLoginRequest && !isGetUser) {
 					toast.error("NOT AUTHORIZED");
 				}
 				break;

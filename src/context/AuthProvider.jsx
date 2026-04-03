@@ -7,9 +7,13 @@ import useFetchCurrentUser from "../hooks/useFetchCurrentUser";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-	const { user, setUser, isAuthenticated, setIsAuthenticated } =
-		useFetchCurrentUser();
+	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const { user, setUser } = useFetchCurrentUser(
+		setIsAuthenticated,
+		setIsLoading,
+	);
 
 	async function login(email, password) {
 		setIsLoading(true);
@@ -19,19 +23,14 @@ function AuthProvider({ children }) {
 				password,
 			});
 
-			// console.log(response);
-
 			const data = response.data;
 
-			// Persist both token AND user object
-			localStorage.setItem("authToken", data.token);
-			localStorage.setItem("authUser", JSON.stringify(data.user));
-
+			localStorage.setItem("isLoggedIn", "true");
 			setUser(data.user);
 			setIsAuthenticated(true);
 		} catch (err) {
 			throw new Error(
-				`${err.response.data?.message || "Wrong Credentials."}`,
+				`${err.response.data?.message || "Wrong CredentAAAAAAAAials."}`,
 			);
 		} finally {
 			setIsLoading(false);
@@ -39,8 +38,8 @@ function AuthProvider({ children }) {
 	}
 
 	function logout() {
-		localStorage.removeItem("authToken");
-		localStorage.removeItem("authUser");
+		apiClient.post(API.LOGOUT);
+		localStorage.removeItem("isLoggedIn");
 		setUser(null);
 		setIsAuthenticated(false);
 		toast.success("Sad to see you go :(( xd");
