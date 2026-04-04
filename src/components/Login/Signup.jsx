@@ -12,6 +12,7 @@ function Signup() {
 	const {
 		register,
 		handleSubmit,
+		watch,
 		formState: { errors, isSubmitting },
 	} = useForm({
 		defaultValues: {
@@ -19,13 +20,17 @@ function Signup() {
 			lastName: "Tharwat",
 			email: "ahmedlordexg@gmail.com",
 			password: "Password123!",
+			role: USER_ROLES.BUYER, // default value
 		},
 	});
 
 	const navigate = useNavigate();
 
+	// watch role to show/hide the portifolio field
+	const selectedRole = watch("role");
+
 	async function onSubmit(data) {
-		console.log("Form Data Ready for API:", data);
+		// console.log("Form Data Ready for API:", data);
 
 		data.name = `${data.firstName} ${data.lastName}`;
 
@@ -33,6 +38,11 @@ function Signup() {
 			data.role === USER_ROLES.BUYER
 				? ACCOUNT_STATUS.APPROVED
 				: ACCOUNT_STATUS.PENDING;
+
+		// if user entered a portfolio url and they're not artist
+		if (data.role !== USER_ROLES.ARTIST) {
+			delete data.portfolio;
+		}
 
 		apiClient
 			.post(API.REGISTER, data)
@@ -46,18 +56,11 @@ function Signup() {
 					login(data.email, data.password);
 				}
 			})
-			.catch((err) => toast.error(err.response.data.detail));
-
-		// fetch("http://localhost:3000/users", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(data),
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((data) => console.log(data))
-		// 	.catch((error) => console.error("Error:", error));
+			.catch((err) =>
+				toast.error(
+					err.response?.data?.detail || "An error occurred",
+				),
+			);
 	}
 
 	return (
@@ -72,7 +75,6 @@ function Signup() {
 					</p>
 				</div>
 
-				{/* The form now uses handleSubmit to process the data */}
 				<form
 					className="mt-8 space-y-4"
 					onSubmit={handleSubmit(onSubmit)}
@@ -192,6 +194,37 @@ function Signup() {
 						</div>
 					</div>
 
+					{/* 3. Conditional Portfolio URL Field */}
+					{selectedRole === USER_ROLES.ARTIST && (
+						<div>
+							<label
+								htmlFor="portfolio"
+								className="block text-sm font-medium text-gray-700"
+							>
+								Portfolio URL
+							</label>
+							<input
+								id="portfolio"
+								type="url"
+								placeholder="https://yourportfolio.com"
+								className={`mt-1 block w-full px-3 py-2 border ${errors.portfolio ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900`}
+								{...register("portfolio", {
+									required:
+										"A portfolio URL is required for artists",
+									pattern: {
+										value: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i,
+										message: "Please enter a valid URL (e.g., https://example.com)",
+									},
+								})}
+							/>
+							{errors.portfolio && (
+								<p className="mt-1 text-xs text-red-500">
+									{errors.portfolio.message}
+								</p>
+							)}
+						</div>
+					)}
+
 					{/* Password Field */}
 					<div>
 						<label
@@ -223,21 +256,12 @@ function Signup() {
 						)}
 					</div>
 
-					{/* Terms & Conditions */}
-					<div className="mt-4 pb-2">
-						{errors.terms && (
-							<p className="mt-1 text-xs text-red-500 ml-7">
-								{errors.terms.message}
-							</p>
-						)}
-					</div>
-
 					{/* Submit Button */}
 					<div>
 						<button
 							type="submit"
 							disabled={isSubmitting}
-							className="w-full flex justify-center py-2.5 px-4 rounded-lg text-white bg-gray-900 hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed transition-all"
+							className="w-full flex justify-center py-2.5 px-4 rounded-lg text-white bg-gray-900 hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed transition-all mt-4"
 						>
 							{isSubmitting
 								? "Creating..."

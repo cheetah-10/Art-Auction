@@ -63,11 +63,11 @@ function ArtistAppCard({ artist }) {
 					Portfolio
 				</h4>
 				<a
-					href={artist.portfolioUrl}
+					href={artist.portfolio}
 					target="_blank"
 					className="text-blue-600 hover:underline text-sm break-all"
 				>
-					{artist.portfolioUrl || "No portfolio link provided"}
+					{artist.portfolio || "No portfolio link provided"}
 				</a>
 			</div>
 

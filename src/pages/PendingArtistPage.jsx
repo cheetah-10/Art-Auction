@@ -1,11 +1,9 @@
-import { ArrowBigLeft, Clock } from "lucide-react";
+import { ArrowBigLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function PendingArtistPage() {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6 text-center">
-			{/* Visual Indicator */}
-			{/* <Clock className="w-16 h-16 text-yellow-500 mb-4" /> */}
 
 			{/* Main Message */}
 			<h1 className="text-3xl font-bold text-gray-900 mb-2">
