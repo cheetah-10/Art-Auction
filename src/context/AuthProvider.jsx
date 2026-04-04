@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const { user, setUser } = useFetchCurrentUser(
 		setIsAuthenticated,
@@ -22,7 +22,9 @@ function AuthProvider({ children }) {
 				email,
 				password,
 			});
-
+			// console.log("===============================")
+			// console.log(response)
+			// console.log("===============================")
 			const data = response.data;
 
 			localStorage.setItem("isLoggedIn", "true");
@@ -30,7 +32,7 @@ function AuthProvider({ children }) {
 			setIsAuthenticated(true);
 		} catch (err) {
 			throw new Error(
-				`${err.response.data?.message || "Wrong CredentAAAAAAAAials."}`,
+				`${err.response?.data?.message || err.message}`,
 			);
 		} finally {
 			setIsLoading(false);

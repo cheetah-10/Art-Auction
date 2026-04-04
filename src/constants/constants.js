@@ -5,9 +5,14 @@ export const USER_ROLES = {
 };
 
 export const ACTIONS = {
-  LOGIN: "login",
-  LOGOUT: "logout",
+	LOGIN: "login",
+	LOGOUT: "logout",
 };
 
-export const WS_URL = "http://localhost:5200"
+export const ACCOUNT_STATUS = {
+	APPROVED: "APPROVED",
+	PENDING: "PENDING",
+	REJECTED: "REJECTED",
+};
 
+export const WS_URL = "http://localhost:5200";

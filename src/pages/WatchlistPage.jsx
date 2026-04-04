@@ -3,8 +3,9 @@ import { useAuth } from "../context/AuthProvider";
 import Navbar from "../ui/Navbar";
 
 function WatchlistPage() {
-  const {user} = useAuth();
-  
+	const { user, isLoading } = useAuth();
+	// console.log(user);
+
 	return (
 		<>
 			<Navbar />
@@ -12,7 +13,7 @@ function WatchlistPage() {
 				<div className="max-w-7xl mx-auto">
 					<div className="mb-8">
 						<h1 className="text-2xl mb-2">
-							{user.name}'s Watchlist
+							{!isLoading && `${user.name}'s Watchlist`}
 						</h1>
 						<p className="text-muted-foreground">
 							Browse your preferred collection of premium

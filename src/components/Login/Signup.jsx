@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { USER_ROLES } from "../../constants/constants";
+import { ACCOUNT_STATUS, USER_ROLES } from "../../constants/constants";
+import apiClient from "../../utils/apiClient";
+import { API } from "../../constants/endPoint";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthProvider";
 
 function Signup() {
+	const { login } = useAuth();
+
 	const {
 		register,
 		handleSubmit,
@@ -12,27 +18,46 @@ function Signup() {
 			firstName: "Ahmed",
 			lastName: "Tharwat",
 			email: "ahmedlordexg@gmail.com",
-			password: "123456789",
+			password: "Password123!",
 		},
 	});
+
+	const navigate = useNavigate();
 
 	async function onSubmit(data) {
 		console.log("Form Data Ready for API:", data);
 
 		data.name = `${data.firstName} ${data.lastName}`;
 
-		data.status = data.role === USER_ROLES.BUYER ? "APPROVED" : "PENDING";
+		data.status =
+			data.role === USER_ROLES.BUYER
+				? ACCOUNT_STATUS.APPROVED
+				: ACCOUNT_STATUS.PENDING;
 
-		fetch("http://localhost:3000/users", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		})
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-			.catch((error) => console.error("Error:", error));
+		apiClient
+			.post(API.REGISTER, data)
+			.then(() => {
+				toast.success("Account was created!");
+
+				if (data.status === ACCOUNT_STATUS.PENDING)
+					navigate("/pending-artist-response");
+				else {
+					navigate("/auction");
+					login(data.email, data.password);
+				}
+			})
+			.catch((err) => toast.error(err.response.data.detail));
+
+		// fetch("http://localhost:3000/users", {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify(data),
+		// })
+		// 	.then((response) => response.json())
+		// 	.then((data) => console.log(data))
+		// 	.catch((error) => console.error("Error:", error));
 	}
 
 	return (

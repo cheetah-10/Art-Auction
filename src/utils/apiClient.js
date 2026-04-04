@@ -10,18 +10,6 @@ const apiClient = axios.create({
 	withCredentials: true,
 });
 
-// // attach token to every request
-// apiClient.interceptors.request.use(
-// 	(config) => {
-// 		const token = localStorage.getItem("authToken");
-// 		if (token) {
-// 			config.headers["Authorization"] = `Bearer ${token}`;
-// 		}
-// 		return config;
-// 	},
-// 	(error) => Promise.reject(error),
-// );
-
 apiClient.interceptors.response.use(
 	(response) => response,
 
@@ -34,7 +22,7 @@ apiClient.interceptors.response.use(
 
 		switch (status) {
 			case 400:
-				console.log(error);
+				// console.log(error);
 				break;
 			case 401:
 				// if user is not logging in (like entering /watchlist that has the user to be logged in)
@@ -57,7 +45,8 @@ apiClient.interceptors.response.use(
 			default:
 				if (!status) {
 					// No response at all — network failure, timeout, CORS
-					toast.error("Network error. Check your connection.");
+					// toast.error("Network error. Check your connection.");
+					throw new Error("Network error. Check your connection.")
 				}
 				break;
 		}

@@ -13,6 +13,7 @@ const [user, setUser] = useState(null);
 				return;
 			}
 
+			setIsLoading(true);
 			try {
 				const response = await apiClient.get(API.USER.GET_USER);
 				const user = response.data;
@@ -27,11 +28,13 @@ const [user, setUser] = useState(null);
 				// Token is invalid (expired)
 				localStorage.removeItem("isLoggedIn");
 				setIsAuthenticated(false);
+			} finally {
+				setIsLoading(false);
 			}
 		}
 
 		getUser();
-	}, []);
+	}, [setIsAuthenticated, setIsLoading]);
 	
 	return {user, setUser}
 }

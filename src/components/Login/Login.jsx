@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 function Login() {
 	const [email, setEmail] = useState("ahmedlordexg@gmail.com");
 	const [password, setPassword] = useState("Password123!");
-	const [error, setError] = useState("");
+	// const [error, setError] = useState("");
 
 	const navigate = useNavigate();
 
@@ -20,6 +20,7 @@ function Login() {
 		if (email && password) {
 			toast.promise(login(email, password), {
 				loading: "loading...",
+				success: "You are logged in!",
 				error: (err) => `${err.message}`
 			});
 		}
@@ -27,7 +28,6 @@ function Login() {
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			toast.success("You are logged in!");
 			navigate("/auction", { replace: true });
 		}
 	}, [isAuthenticated, navigate]);

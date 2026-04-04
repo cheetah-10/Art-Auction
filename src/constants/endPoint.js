@@ -9,10 +9,14 @@ export const API = {
 
 	LOGIN: `${BACKEND_PORT}/account/login`,
 	LOGOUT: `${BACKEND_PORT}/account/logout`,
+	REGISTER: `${BACKEND_PORT}/account/register`,
 
 	USER: {
 		GET_USER: `${BACKEND_PORT}/account/me`,
 		GET_MY_WATCHLIST: `${BACKEND_PORT}/api/watchlist`,
+		GET_PENDING_ARTISTS: `${BACKEND_PORT}/api/admin/artist-applications`,
+		PUT_APPROVE_ARTIST_BY_ID: `${BACKEND_PORT}/api/admin/approve-artist/`,
+		PUT_REJECT_ARTIST_BY_ID: `${BACKEND_PORT}/api/admin/reject-artist/`
 	},
 
 	TAG: {

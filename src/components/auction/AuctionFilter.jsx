@@ -105,25 +105,3 @@ function AuctionFilter() {
 }
 
 export default AuctionFilter;
-
-/*
-
-if (e.target.value === "") {
-							// i'll need to delete the 'name' parameter only and fetch again
-							searchParams.delete("name");
-							
-							setSearchParams(searchParams);
-						
-							console.log(e.target.value);
-							
-							// fetch data whenever a user types artist's name
-							
-							handleApplyFilters();
-
-						// what if the user deleted the artist name? (there was a glitch where ?name=[first entered letter] idk why)
-						// what if a user applied another filter? (category or tags)
-
-							// and i gotta set searchParams to the new value and it's working now
-						}
-						setartistName(e.target.value);
-*/
