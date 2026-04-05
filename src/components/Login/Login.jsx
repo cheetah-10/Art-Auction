@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 function Login() {
-	const [email, setEmail] = useState("ahmedlordexg@gmail.com");
+	const [email, setEmail] = useState("contact@patek.com");
 	const [password, setPassword] = useState("Password123!");
 	// const [error, setError] = useState("");
 

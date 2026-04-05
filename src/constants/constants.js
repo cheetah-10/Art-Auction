@@ -15,4 +15,11 @@ export const ACCOUNT_STATUS = {
 	REJECTED: "REJECTED",
 };
 
+export const ARTWORK_STATUS = {
+	APPROVED: "APPROVED",
+	PENDING: "PENDING",
+	REJECTED: "REJECTED",
+	AUCTION: "AUCTION",
+};
+
 export const WS_URL = "http://localhost:5200";

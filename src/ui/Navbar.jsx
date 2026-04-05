@@ -67,6 +67,16 @@ const Navbar = () => {
 							Auction Apps
 						</NavLink>
 					)}
+					{isAuthenticated && user.role.includes("artist") && (
+						<NavLink
+							to="/my-art"
+							className={({ isActive }) =>
+								`${navItemBaseClass} ${isActive ? "bg-gray-100/80 text-gray-900" : "text-gray-700 hover:text-gray-900 hover:bg-white/60"}`
+							}
+						>
+							My Art
+						</NavLink>
+					)}
 				</div>
 			</div>
 
@@ -97,7 +107,7 @@ const Navbar = () => {
 								roleColors[user.role?.toLowerCase()]
 							}`}
 						>
-							{user.role}
+							{user.role} - {user.name.split(" ")[0]}
 						</span>
 
 						<Link

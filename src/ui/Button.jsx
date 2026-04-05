@@ -11,7 +11,7 @@ function Button({ size, className = "", onClick, children, disabled, ...props })
 	return (
 		<button
 			disabled={disabled}
-			className={`duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-75 ${chosenSize} ${className}`}
+			className={`flex items-center justify-center duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-75 ${chosenSize} ${className}`}
 			onClick={onClick}
 			{...props}
 		>

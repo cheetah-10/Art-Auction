@@ -11,6 +11,9 @@ import ArtistsSubmitionPage from "./pages/ArtistsSubmitionPage";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { USER_ROLES } from "./constants/constants";
 import PendingArtistPage from "./pages/PendingArtistPage";
+import YourArtPage from "./pages/YourArtPage";
+import UploadArtworkForm from "./pages/UploadArtworkForm";
+import ArtworkDetailsPage from "./pages/ArtworkDetailsPage";
 
 const router = createBrowserRouter([
 	{
@@ -38,6 +41,36 @@ const router = createBrowserRouter([
 		),
 	},
 	{ path: "/pending-artist-response", element: <PendingArtistPage /> },
+	{
+		path: "/my-art",
+		element: (
+			<ProtectedRoute
+				allowedRoles={[USER_ROLES.ARTIST, USER_ROLES.ADMIN]}
+			>
+				<YourArtPage />
+			</ProtectedRoute>
+		),
+	},
+	{
+		path: "/upload-artwork",
+		element: (
+			<ProtectedRoute
+				allowedRoles={[USER_ROLES.ARTIST, USER_ROLES.ADMIN]}
+			>
+				<UploadArtworkForm />
+			</ProtectedRoute>
+		),
+	},
+	{
+		path: "/artwork/:id",
+		element: (
+			<ProtectedRoute
+				allowedRoles={[USER_ROLES.ARTIST, USER_ROLES.ADMIN]}
+			>
+				<ArtworkDetailsPage />
+			</ProtectedRoute>
+		),
+	},
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/signup", element: <SignupPage /> },
 	{ path: "/", element: <LoginPage /> },
