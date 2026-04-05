@@ -27,7 +27,8 @@ apiClient.interceptors.response.use(
 			case 401:
 				// if user is not logging in (like entering /watchlist that has the user to be logged in)
 				if (!isLoginRequest && !isGetUser) {
-					toast.error("NOT AUTHORIZED");
+					toast.error("UNAUTHORIZED");
+					throw new Error("Unauthorized");
 				}
 				break;
 			case 403:
@@ -46,7 +47,9 @@ apiClient.interceptors.response.use(
 				if (!status) {
 					// No response at all — network failure, timeout, CORS
 					// toast.error("Network error. Check your connection.");
-					throw new Error("Network error. Check your connection.")
+					throw new Error(
+						"Network error. Check your connection.",
+					);
 				}
 				break;
 		}

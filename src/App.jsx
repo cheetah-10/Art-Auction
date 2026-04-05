@@ -14,6 +14,7 @@ import PendingArtistPage from "./pages/PendingArtistPage";
 import YourArtPage from "./pages/YourArtPage";
 import UploadArtworkForm from "./pages/UploadArtworkForm";
 import ArtworkDetailsPage from "./pages/ArtworkDetailsPage";
+import UploadArtworkFormPopulated from "./pages/UploadArtworkFormPopulated";
 
 const router = createBrowserRouter([
 	{
@@ -71,6 +72,16 @@ const router = createBrowserRouter([
 			</ProtectedRoute>
 		),
 	},
+	{
+		path: "/edit-artwork/:id",
+		element: (
+			<ProtectedRoute
+				allowedRoles={[USER_ROLES.ARTIST, USER_ROLES.ADMIN]}
+			>
+				<UploadArtworkFormPopulated />
+			</ProtectedRoute>
+		),
+	},
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/signup", element: <SignupPage /> },
 	{ path: "/", element: <LoginPage /> },
@@ -96,7 +107,7 @@ function App() {
 						// Define default options
 						className: "",
 						duration: 5000,
-						removeDelay: 100,
+						removeDelay: 1000,
 						success: {
 							duration: 1000,
 							iconTheme: {
@@ -109,7 +120,7 @@ function App() {
 							},
 						},
 						error: {
-							duration: 1000,
+							duration: 2000,
 							iconTheme: {
 								primary: "white",
 								secondary: "red",
