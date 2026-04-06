@@ -6,7 +6,6 @@ import Navbar from "../ui/Navbar";
 import useFetch from "../hooks/useFetch";
 import { API } from "../constants/endPoint";
 import apiClient from "../utils/apiClient";
-import toast from "react-hot-toast";
 import { ARTWORK_STATUS } from "../constants/constants";
 
 function ArtworkForm() {
@@ -37,10 +36,7 @@ function ArtworkForm() {
 			setValue("title", artwork.title);
 			setValue("description", artwork.description);
 
-			const catId =
-				artwork.category?.categoryId?.toString() ||
-				artwork.category?.id?.toString() ||
-				"";
+			const catId = artwork.category?.categoryId?.toString() || "";
 			setValue("category", catId);
 
 			setValue("initialPrice", artwork.initialPrice);
@@ -63,15 +59,21 @@ function ArtworkForm() {
 			});
 	};
 
+	// - if user hit /edit-artwork with a rejected artwork
+	// - if user hit /edit-artwork with an active artwork in auction there will be a different url to edit it
 	if (artwork.status === ARTWORK_STATUS.REJECTED) {
 		return (
 			<>
 				<Navbar />
 				<div className="flex justify-center items-center mt-5">
-					<p className="text-red-500 font-semibold">Rejected artworks cannot be edited</p>
+					<p className="text-red-500 font-semibold">
+						Rejected artworks cannot be edited
+					</p>
 				</div>
 			</>
 		);
+	} else if (artwork.status === ARTWORK_STATUS.AUCTION) {
+		navigate(`/edit-auction-artwork/${artworkId}`);
 	}
 
 	if (artworkId && artworkError) {
@@ -98,15 +100,13 @@ function ArtworkForm() {
 							<div className="flex items-center space-x-2">
 								<Palette className="w-6 h-6 text-gray-900" />
 								<h2 className="text-2xl font-bold text-gray-900">
-									{artworkId
-										? "Edit Artwork"
-										: "Upload Artwork"}
+									Edit Artwork
 								</h2>
 							</div>
 							<p className="mt-2 text-gray-500">
-								{artworkId
-									? "Update the details of your artwork. Note that changing details will return the status to pending for review."
-									: "Submit your artwork for auction. Your submission will be reviewed by our admin team before going live."}
+								Update the details of your artwork. Note
+								that changing details will return the
+								status to pending for review.
 							</p>
 						</div>
 

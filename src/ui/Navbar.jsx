@@ -59,12 +59,12 @@ const Navbar = () => {
 					)}
 					{isAuthenticated && user.role.includes("admin") && (
 						<NavLink
-							to="/auction-application"
+							to="/artwork-application"
 							className={({ isActive }) =>
 								`${navItemBaseClass} ${isActive ? "bg-gray-100/80 text-gray-900" : "text-gray-700 hover:text-gray-900 hover:bg-white/60"}`
 							}
 						>
-							Auction Apps
+							Artwork Apps
 						</NavLink>
 					)}
 					{isAuthenticated && user.role.includes("artist") && (

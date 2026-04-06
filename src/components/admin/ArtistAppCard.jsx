@@ -1,9 +1,9 @@
 import { User, Mail, Check, X, IdCard } from "lucide-react";
-import Button from "../ui/Button";
-import apiClient from "../utils/apiClient";
-import { API } from "../constants/endPoint";
+import Button from "../../ui/Button";
+import apiClient from "../../utils/apiClient";
+import { API } from "../../constants/endPoint";
 import { useState } from "react";
-import { ACCOUNT_STATUS } from "../constants/constants";
+import { ACCOUNT_STATUS } from "../../constants/constants";
 
 const appStatusStyle = {
 	[ACCOUNT_STATUS.APPROVED]: " bg-green-500 text-white",

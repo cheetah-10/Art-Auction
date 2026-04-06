@@ -1,3 +1,5 @@
+import dateTimeFormat from "../../utils/dateTimeFormat";
+
 function Bid({ bid, isHighest }) {
 	// console.log(bid);
 	const { bidderName, bidAmount, timestamp } = bid;
@@ -53,7 +55,7 @@ function Bid({ bid, isHighest }) {
 						)}
 					</div>
 					<span className="text-sm text-gray-500 mt-0.5">
-						{timestamp}
+						{dateTimeFormat(timestamp)}
 					</span>
 				</div>
 			</div>

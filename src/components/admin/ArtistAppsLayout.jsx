@@ -1,6 +1,6 @@
-import { API } from "../constants/endPoint";
-import useFetch from "../hooks/useFetch";
 import ArtistAppCard from "./ArtistAppCard";
+import { API } from "../../constants/endPoint";
+import useFetch from "../../hooks/useFetch";
 
 function ArtistAppsLayout() {
 	const {

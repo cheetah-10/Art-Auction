@@ -5,14 +5,14 @@ const statusColors = {
 	AUCTION: "bg-blue-500",
 };
 
-function ArtworkStatus({ artwork, className = "" }) {
-	const badgeColor = statusColors[artwork.status] || "bg-gray-500";
+function ArtworkStatus({ artwork, appStatus, className = "" }) {
+	const badgeColor = statusColors[appStatus || artwork.status] || "bg-gray-500";
 
 	return (
 		<span
 			className={`${className} px-2 py-1 text-xs font-bold text-white rounded uppercase ${badgeColor}`}
 		>
-			{artwork.status}
+			{appStatus || artwork.status}
 		</span>
 	);
 }

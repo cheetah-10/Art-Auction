@@ -14,7 +14,10 @@ export const API = {
 	ARTWORK: {
 		GET_MY_ARTWORK: `${BACKEND_PORT}/api/artwork/my-artworks`,
 		GET_ARTWORK_BY_ID: `${BACKEND_PORT}/api/artwork/`,
+		GET_PENDING_ARTWORK: `${BACKEND_PORT}/api/admin/artwork-applications`,
 		PUT_UPDATED_ARTWORK: `${BACKEND_PORT}/api/artwork/`,
+		PUT_APPROVE_ARTWORK: `${BACKEND_PORT}/api/admin/approve-artwork/`,
+		PUT_REJECT_ARTWORK: `${BACKEND_PORT}/api/admin/reject-artwork/`,
 		POST_NEW_ARTWORK: `${BACKEND_PORT}/api/artwork/create-artwork`,
 		DELETE_ARTWORK: `${BACKEND_PORT}/api/artwork/`,
 	},

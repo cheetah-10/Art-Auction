@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import WatchListPage from "./pages/WatchListPage";
-import ArtistsSubmitionPage from "./pages/ArtistsSubmitionPage";
+import ArtistAppsPage from "./pages/ArtistAppsPage";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { USER_ROLES } from "./constants/constants";
 import PendingArtistPage from "./pages/PendingArtistPage";
@@ -15,6 +15,7 @@ import YourArtPage from "./pages/YourArtPage";
 import UploadArtworkForm from "./pages/UploadArtworkForm";
 import ArtworkDetailsPage from "./pages/ArtworkDetailsPage";
 import UploadArtworkFormPopulated from "./pages/UploadArtworkFormPopulated";
+import ArtworkAppsPage from "./pages/ArtworkAppsPage";
 
 const router = createBrowserRouter([
 	{
@@ -37,7 +38,15 @@ const router = createBrowserRouter([
 		path: "/artist-application",
 		element: (
 			<ProtectedRoute allowedRoles={[USER_ROLES.ADMIN]}>
-				<ArtistsSubmitionPage />
+				<ArtistAppsPage />
+			</ProtectedRoute>
+		),
+	},
+	{
+		path: "/artwork-application",
+		element: (
+			<ProtectedRoute allowedRoles={[USER_ROLES.ADMIN]}>
+				<ArtworkAppsPage />
 			</ProtectedRoute>
 		),
 	},

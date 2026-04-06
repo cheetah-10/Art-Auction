@@ -1,7 +1,8 @@
+import ArtistAppsLayout from "../components/admin/ArtistAppsLayout";
+import ArtworkAppsLayout from "../components/admin/ArtworkAppsLayout";
 import Navbar from "../ui/Navbar";
-import ArtistAppsLayout from "./ArtistAppsLayout";
 
-function ArtistsSubmitionPage() {
+function ArtworkAppsPage() {
 	return (
 		<>
 			<Navbar />
@@ -13,11 +14,11 @@ function ArtistsSubmitionPage() {
 						</h1>
 					</div>
 
-					<ArtistAppsLayout />
+					<ArtworkAppsLayout />
 				</div>
 			</div>
 		</>
 	);
 }
 
-export default ArtistsSubmitionPage;
+export default ArtworkAppsPage;
