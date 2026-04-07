@@ -6,7 +6,6 @@ import ArtworkCard from "./ArtworkCard";
 
 function ArtworkLayout() {
 	const { data: artworks } = useFetch(API.ARTWORK.GET_MY_ARTWORK);
-  
 	return (
 		<div>
 			<div className="flex justify-between items-center mb-6">
@@ -21,7 +20,7 @@ function ArtworkLayout() {
 					Upload New Artwork
 				</Link>
 			</div>
-      
+
 			{artworks && artworks.length > 0 && (
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{artworks.map((artwork) => (
@@ -32,8 +31,8 @@ function ArtworkLayout() {
 					))}
 				</div>
 			)}
-			
-			{artworks.length === 0 && <div>Upload your art  </div>}
+
+			{artworks.length === 0 && <div>Upload your art </div>}
 		</div>
 	);
 }
