@@ -1,6 +1,8 @@
 import { Calendar, DollarSign, User } from "lucide-react";
+import { useState, useEffect } from "react";
 import AuctionStatus from "../../ui/AuctionStatus";
 import useBidWebsocket from "../../hooks/useBidWebsocket";
+import useCountdown from "../../hooks/useCountDown";
 
 const formatDate = (dateString) => {
 	const date = new Date(dateString);
@@ -22,13 +24,19 @@ const formatCurrency = (amount) => {
 
 function ArtworkData({ auction, isActiveAuction }) {
 	const { artwork, category, tags, winner } = auction;
+	const { currentBid } = useBidWebsocket(auction, isActiveAuction);
 
-	const {currentBid} = useBidWebsocket(auction, isActiveAuction);
-	
+	const timeLeft = useCountdown(auction.auctionEndTime);
+
 	return (
 		<div className="space-y-5">
 			{/* title */}
-			<h1 className="mb-4 text-2xl">{artwork.title}</h1>
+			<div className="flex justify-between items-center">
+				<h1 className="text-2xl">{artwork.title}</h1>
+				<span className="text-green-500 font-bold ml-1">
+					{timeLeft}
+				</span>
+			</div>
 
 			{/* Status */}
 			<AuctionStatus auction={auction} />
@@ -68,7 +76,7 @@ function ArtworkData({ auction, isActiveAuction }) {
 					<p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">
 						Auction Period
 					</p>
-					<p className="text-gray-900 font-medium text-base">
+					<p className="text-gray-900 font-medium text-base flex items-center gap-2">
 						{formatDate(auction.auctionStartTime)} -{" "}
 						{formatDate(auction.auctionEndTime)}
 					</p>
