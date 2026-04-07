@@ -19,7 +19,7 @@ import { ARTWORK_STATUS, USER_ROLES } from "../constants/constants";
 import apiClient from "../utils/apiClient";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dateTimeFormat from "../utils/dateTimeFormat";
 
 function ArtworkDetailsPage() {
@@ -34,8 +34,15 @@ function ArtworkDetailsPage() {
 		error,
 	} = useFetch(`${API.ARTWORK.GET_ARTWORK_BY_ID}${artworkId}`);
 
-	//=======APP STATUS (state)=======
-	const [appStatus, setAppStatus] = useState(artwork.status || ARTWORK_STATUS.PENDING);
+	// console.log(artwork)
+	//=======APP STATUS (approved-rejected..etc)=======
+	const [appStatus, setAppStatus] = useState("");
+
+	useEffect(() => {
+		if (artwork && artwork.status) {
+			setAppStatus(artwork.status);
+		}
+	}, [artwork]);
 
 	async function handleApproveArtwork() {
 		await apiClient
@@ -135,7 +142,9 @@ function ArtworkDetailsPage() {
 									<div className="flex items-center text-gray-500 text-sm">
 										<Calendar className="w-4 h-4 mr-2" />
 										Reviewed on{" "}
-										{dateTimeFormat(artwork.approvalDate)}
+										{dateTimeFormat(
+											artwork.approvalDate,
+										)}
 									</div>
 								)}
 							</div>
@@ -281,12 +290,14 @@ function ArtworkDetailsPage() {
 								)}
 
 							{/* ADMIN BUTTONS */}
-							{appStatus !==
-								ARTWORK_STATUS.PENDING && (
-								<div className="flex justify-center text-red-500 font-semibold">
-									Artwork was reviewed
-								</div>
-							)}
+							{!isUserLoading &&
+								user.role === USER_ROLES.ADMIN &&
+								appStatus !==
+									ARTWORK_STATUS.PENDING && (
+									<div className="flex justify-center text-red-500 font-semibold">
+										Artwork was reviewed
+									</div>
+								)}
 							{!isUserLoading &&
 								user.role === USER_ROLES.ADMIN &&
 								appStatus ===
