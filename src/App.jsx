@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import WatchListPage from "./pages/WatchListPage";
+import WatchlistPage from "./pages/WatchlistPage";
 import ArtistAppsPage from "./pages/ArtistAppsPage";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { USER_ROLES } from "./constants/constants";
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/watchlist",
-		element: <WatchListPage />,
+		element: <WatchlistPage />,
 	},
 	{
 		path: "/artist-application",

@@ -1,4 +1,5 @@
-const BACKEND_PORT = "http://localhost:5200";
+// const BACKEND_PORT = "http://localhost:5200";
+const BACKEND_PORT = import.meta.env.VITE_API_URL;
 
 export const API = {
 	LOGIN: `${BACKEND_PORT}/account/login`,

@@ -22,4 +22,4 @@ export const ARTWORK_STATUS = {
 	AUCTION: "AUCTION",
 };
 
-export const WS_URL = "http://localhost:5200";
+export const WS_URL = import.meta.env.VITE_API_URL;
