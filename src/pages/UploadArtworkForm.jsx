@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import Navbar from "../ui/Navbar";
 import useFetch from "../hooks/useFetch";
 import { API } from "../constants/endPoint";
+import apiClient from "../utils/apiClient";
+import { useNavigate } from "react-router-dom";
 
 function UploadArtworkForm() {
 	const { data: categories } = useFetch(API.CATEGORY.GET_ALL_CATEGORIES);
 	const { data: tags } = useFetch(API.TAG.GET_ALL_TAGS);
-
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -19,9 +21,9 @@ function UploadArtworkForm() {
 	const titleValue = watch("title", "");
 
 	const onSubmit = async (data) => {
-		console.log("Artwork Submitted:", data);
-		// Add your API call here
-		// await apiClient.post('/api/artworks', data);
+		apiClient.post(`${API.ARTWORK.POST_NEW_ARTWORK}`, data).then(() => {
+			navigate(`/my-art`);
+		});
 	};
 
 	return (
@@ -207,8 +209,8 @@ function UploadArtworkForm() {
 									id="initialPrice"
 									type="number"
 									step="0.01"
-									min="0"
-									placeholder="0.00"
+									min="10"
+									placeholder="10.00"
 									className={`w-full px-4 py-3 bg-gray-50 border ${
 										errors.initialPrice
 											? "border-red-500"
@@ -218,8 +220,8 @@ function UploadArtworkForm() {
 										required:
 											"Initial price is required",
 										min: {
-											value: 0,
-											message: "Price cannot be negative",
+											value: 10,
+											message: "Price must be at least $10",
 										},
 									})}
 								/>
@@ -245,8 +247,8 @@ function UploadArtworkForm() {
 									id="buyNowPrice"
 									type="number"
 									step="0.01"
-									min="0"
-									placeholder="0.00"
+									min="10"
+									placeholder="10.00"
 									className={`w-full px-4 py-3 bg-gray-50 border ${
 										errors.buyNowPrice
 											? "border-red-500"
@@ -256,8 +258,8 @@ function UploadArtworkForm() {
 										required:
 											"Buy now price is required",
 										min: {
-											value: 0,
-											message: "Price cannot be negative",
+											value: 10,
+											message: "Price must be at least $10",
 										},
 									})}
 								/>

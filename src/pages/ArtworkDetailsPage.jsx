@@ -49,7 +49,6 @@ function ArtworkDetailsPage() {
 			.put(`${API.ARTWORK.PUT_APPROVE_ARTWORK}${artworkId}`)
 			.then((res) => {
 				// navigate("/artwork-application");
-				console.log(res);
 				toast.success(res.data.message);
 				setAppStatus(ARTWORK_STATUS.APPROVED);
 			})
