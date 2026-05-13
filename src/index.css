@@ -1,153 +1,121 @@
 @import "tailwindcss";
-/* :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* @import "tw-animate-css"; */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@custom-variant dark (&:is(.dark *));
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme inline {
+  /* Art Auction Theme - Brand Colors */
+  --color-art-gold-100: var(--art-gold-100);
+  --color-art-gold-80: var(--art-gold-80);
+  --color-art-gold-60: var(--art-gold-60);
+  --color-art-gold-40: var(--art-gold-40);
+  --color-art-gold-20: var(--art-gold-20);
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  --color-art-navy-100: var(--art-navy-100);
+  --color-art-navy-80: var(--art-navy-80);
+  --color-art-navy-60: var(--art-navy-60);
+  --color-art-navy-40: var(--art-navy-40);
+  --color-art-navy-20: var(--art-navy-20);
+
+  --color-art-black-100: var(--art-black-100);
+  --color-art-black-80: var(--art-black-80);
+  --color-art-black-60: var(--art-black-60);
+
+  --color-art-terracotta-100: var(--art-terracotta-100);
+  --color-art-terracotta-80: var(--art-terracotta-80);
+  --color-art-terracotta-60: var(--art-terracotta-60);
+
+  --color-art-sage-100: var(--art-sage-100);
+  --color-art-sage-80: var(--art-sage-80);
+  --color-art-sage-60: var(--art-sage-60);
+
+  --color-art-charcoal-100: var(--art-charcoal-100);
+  --color-art-charcoal-80: var(--art-charcoal-80);
+}
+
+:root {
+  /* Light Mode - Elegant & Clean Gallery Feel */
+  
+  /* Primary Gold (Accent for buttons, highlights, and status) */
+  --art-gold-100: #B38B3F; /* Metallic Gold */
+  --art-gold-80: #C5A367;
+  --art-gold-60: #D7BB8E;
+  --art-gold-40: #E9D3B6;
+  --art-gold-20: #F6EBDE;
+
+  /* Navy (Formal, Text, Secondary Buttons) */
+  --art-navy-100: #1A2238; /* Deep Midnight */
+  --art-navy-80: #343D55;
+  --art-navy-60: #545D76;
+  --art-navy-40: #7E869B;
+  --art-navy-20: #BFC4D1;
+
+  /* Black & Neutral (Borders, Backgrounds) */
+  --art-black-100: #111111;
+  --art-black-80: #333333;
+  --art-black-60: #666666;
+
+  /* Terracotta (Artistic Accent - Warmth) */
+  --art-terracotta-100: #A0522D;
+  --art-terracotta-80: #B87352;
+  --art-terracotta-60: #D19477;
+
+  /* Sage (Modern Art Accent - Calm) */
+  --art-sage-100: #708271;
+  --art-sage-80: #8E9D8E;
+  --art-sage-60: #ADB9AD;
+
+  /* Dark Charcoal (Formal backgrounds) */
+  --art-charcoal-100: #2F2F2F;
+  --art-charcoal-80: #4D4D4D;
+}
+
+.dark {
+  /* Dark Mode - Dramatic Gallery Lighting */
+  
+  --art-gold-100: #D4AF37; /* Brighter Gold for Dark backgrounds */
+  --art-gold-80: #E1C16E;
+  --art-gold-60: #EED394;
+  --art-gold-40: #FAE5B9;
+  --art-gold-20: #FFF7DF;
+
+  --art-navy-100: #0D1117;
+  --art-navy-80: #161B22;
+  --art-navy-60: #21262D;
+  --art-navy-40: #30363D;
+  --art-navy-20: #484F58;
+
+  --art-black-100: #050505;
+  --art-black-80: #1A1A1A;
+  --art-black-60: #2D2D2D;
+
+  --art-terracotta-100: #CD5C5C;
+  --art-terracotta-80: #D98484;
+  --art-terracotta-60: #E5ACAC;
+
+  --art-sage-100: #556B2F;
+  --art-sage-80: #7B8D5E;
+  --art-sage-60: #A2AF8D;
+}
+
+@layer base {
+  * {
+    @apply border-art-gold-20 outline-art-gold-100/50;
   }
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  body {
+    /* Set a slightly off-white for a canvas/gallery feel */
+    background-color: #FBFBFB;
+    color: var(--art-navy-100);
+    @apply antialiased;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  .dark body {
+    background-color: var(--art-navy-100);
+    color: #FBFBFB;
   }
-}
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  button{
+    cursor: pointer;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-} */
-
-/* 1. Set the baseline thickness */
-::-webkit-scrollbar {
-	width: 6px !important;
-	height: 6px !important;
-	background-color: transparent !important;
-}
-
-/* 2. AGGRESSIVELY kill the arrows */
-::-webkit-scrollbar-button {
-	display: none !important;
-	width: 0px !important;
-	height: 0px !important;
-	background: transparent !important;
-}
-
-/* 3. Force the track to be completely flat and invisible */
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece {
-	background: transparent !important;
-	border-radius: 0px !important;
-	box-shadow: none !important;
-	border: none !important;
-}
-
-/* 4. Force the thumb to be a sharp, black rectangle */
-::-webkit-scrollbar-thumb {
-	background-color: #000000 !important;
-	border-radius: 0px !important;
-	border: none !important;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background-color: #333333 !important;
-}
-
-/* 5. Hide the weird corner piece if both X and Y scrollbars appear */
-::-webkit-scrollbar-corner {
-	display: none !important;
-	background: transparent !important;
 }
