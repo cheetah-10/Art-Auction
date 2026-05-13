@@ -5,7 +5,7 @@ export default function PendingUserInfo({ setShowPendingModal }) {
   const navigate = useNavigate();
   const onclose = () => {
     setShowPendingModal(false);
-    navigate('/home');
+    navigate('/');
   }
   return (
     <div>

@@ -1,10 +1,13 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, Palette, Layers, Tag, LogOut } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 const AdminSidebar = () => {
     const { pathname } = useLocation();
     const [isOpen, setIsOpen] = React.useState(false);
+    const {logout}  = useContext(AuthContext)
+    const navigate = useNavigate()
     const menuItems = [
         { path: '/admin', label: 'Overview', icon: <LayoutDashboard size={20} /> },
         { path: '/admin/users', label: 'Users', icon: <Users size={20} /> },
@@ -12,7 +15,10 @@ const AdminSidebar = () => {
         { path: '/admin/categories', label: 'Categories', icon: <Layers size={20} /> },
         { path: '/admin/tags', label: 'Tags', icon: <Tag size={20} /> },
     ];
-
+    const handleLogout = ()=>{
+        navigate('/login')
+        logout()
+    }
     return (
         <aside className={`${isOpen ? 'w-64' : 'w-21'} bg-white dark:bg-art-navy-90 border-r left-0  border-gray-200 dark:border-art-navy-80 flex flex-col max-h-screen  z-30 transition-width duration-300`}>
             <div className="p-8">
@@ -46,7 +52,7 @@ const AdminSidebar = () => {
             </nav>
 
             <div className="p-6 border-t border-gray-100 dark:border-art-navy-80">
-                <button className="flex items-center gap-4 text-art-terracotta-100 text-[10px] font-bold uppercase tracking-widest hover:opacity-70 transition-all">
+                <button onClick={handleLogout} className="flex items-center gap-4 text-art-terracotta-100 text-[10px] font-bold uppercase tracking-widest hover:opacity-70 transition-all">
                     <LogOut size={16} /> {isOpen && 'Terminate Session'}
                 </button>
             </div>

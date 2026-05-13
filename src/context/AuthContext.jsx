@@ -1,5 +1,6 @@
 // src/context/AuthContext.js
 import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -14,6 +15,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+   
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);

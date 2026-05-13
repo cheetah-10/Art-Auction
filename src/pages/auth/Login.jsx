@@ -10,7 +10,7 @@ import { AuthContext } from '../../context/AuthContext.jsx';
 const Login = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useContext(AuthContext);
+    const { login, user } = useContext(AuthContext);
 
     const validationSchema = Yup.object({
         email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -25,10 +25,11 @@ const Login = () => {
             const res = await loginApi(values);
 
             console.log("Login successful", res);
-            
+
             login(res.user, res.token);
 
             navigate('/');
+
         } catch (error) {
             console.error("Login failed:", error);
             alert("Login failed. Please check your credentials and try again.");

@@ -9,7 +9,7 @@ const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+    const BaseURL = 'http://localhost:5000'
     const placeholders = {
         watches: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&q=80",
         vases: "https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&q=80",
@@ -35,7 +35,7 @@ const Categories = () => {
     return (
         <div className="min-h-screen bg-[#F9F9F9] dark:bg-art-navy-100 pt-28 pb-20 px-6">
             <div className="max-w-7xl mx-auto">
-                
+
                 {/* Section Header */}
                 <div className="mb-16 text-center md:text-left">
                     <h1 className="font-serif text-5xl md:text-6xl italic text-art-navy-100 dark:text-white mb-4">
@@ -50,14 +50,14 @@ const Categories = () => {
                 {/* Categories Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {categories.map((cat) => (
-                        <div 
+                        <div
                             key={cat.id}
                             onClick={() => navigate(`/category/${cat.id}`)}
                             className="group relative h-[500px] overflow-hidden cursor-pointer bg-art-navy-10"
                         >
                             {/* Background Image */}
-                            <img 
-                                src={cat.image || placeholders[cat.name.toLowerCase()] || placeholders.default}
+                            <img
+                                src={`${BaseURL}/${cat.image}` || 'https://images.unsplash.com/photo-1490312278390-ab6414f81c81?auto=format&fit=crop&q=80'}
                                 alt={cat.name}
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
@@ -76,7 +76,7 @@ const Categories = () => {
                                 <p className="text-art-navy-20 text-sm line-clamp-2 mb-6 max-w-xs transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
                                     {cat.description || "Discover the finest selection of handpicked treasures in this category."}
                                 </p>
-                                
+
                                 <div className="flex items-center justify-between border-t border-white/20 pt-4">
                                     <span className="text-white text-[10px] uppercase tracking-widest font-bold">View Items</span>
                                     <div className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center text-white group-hover:bg-art-gold-100 group-hover:border-art-gold-100 transition-all duration-300">

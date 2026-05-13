@@ -10,6 +10,7 @@ const CategoryDetails = () => {
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const BaseURL = 'http://localhost:5000'
 
     const defaultHero = "https://pbs.twimg.com/media/B9Wa-KTCYAAVX9W.jpg";
 
@@ -35,7 +36,7 @@ const CategoryDetails = () => {
         <div className="min-h-screen bg-[#FDFDFD] dark:bg-art-navy-100">
             <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
                 <img 
-                    src={category.image || defaultHero} 
+                    src={`${BaseURL}/${category.image}` || defaultHero} 
                     alt={category.name}
                     className="w-full h-full object-cover scale-105"
                 />

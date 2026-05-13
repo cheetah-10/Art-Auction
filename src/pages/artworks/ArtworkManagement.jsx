@@ -56,7 +56,8 @@ const ArtworkManagement = () => {
                     <button onClick={() => navigate(-1)} className="flex items-center text-xs uppercase tracking-widest text-art-navy-60 dark:text-art-gold-40 hover:text-art-gold-100 transition-colors">
                         <ChevronLeft size={16} /> Back to Collection
                     </button>
-                    <div className="flex gap-2">
+                    {artwork.auctionStatus === "NotStarted" && (
+                        <div className="flex gap-2">
                         <button onClick={() => navigate(`/edit-artwork/${id}`)} className="flex items-center px-4 py-2 bg-white dark:bg-art-navy-80 border border-art-gold-20 text-art-navy-100 dark:text-white text-xs font-bold uppercase tracking-widest hover:border-art-gold-100 transition-all">
                             <Edit3 size={14} className="mr-2" /> Edit
                         </button>
@@ -64,6 +65,8 @@ const ArtworkManagement = () => {
                             <Trash2 size={14} className="mr-2" /> Delete
                         </button>
                     </div>
+                    )}
+                    
                 </div>
 
                 {/* Main Dashboard Stats */}
