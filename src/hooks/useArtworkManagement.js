@@ -49,12 +49,14 @@ export const useArtworkManagement = (token, id) => {
         }
     };
 
-       useEffect(() => {
+    useEffect(() => {
         const { startConnection, stopConnection } = createConnection(id, token, (data) => {
             setArtwork(prev => ({ ...prev, currentPrice: data.amount }));
             setBids(prev => [data, ...prev]);
             setBidAmount(data.amount + 11);
-            toast.success(`New bid placed: $${data.amount}`);
+            toast(`New bid placed: $${data.amount}`, {
+                icon: '🚨',
+            });
         }
         );
         startConnection();

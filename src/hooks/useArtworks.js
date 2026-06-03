@@ -30,7 +30,14 @@ export const useArtworks = () => {
             const res = await getPendingArtworksApi(token);
             setPendingArtworks(res);
         } catch (error) {
-            toast.error("Failed to load artworks data");
+             if (
+                error.response?.status === 404 &&
+                error.response?.data?.includes("No pending artworks found")
+            ) {
+                setRejectedArtworks([]);
+            } else {
+                toast.error("Failed to load pending artworks data");
+            }
         } finally {
             setLoading(false);
         }
@@ -41,7 +48,14 @@ export const useArtworks = () => {
             const res = await getRejectedArtworksApi(token);
             setRejectedArtworks(res);
         } catch (error) {
-            toast.error("Failed to load artworks data");
+            if (
+                error.response?.status === 404 &&
+                error.response?.data?.includes("No rejected artworks found")
+            ) {
+                setRejectedArtworks([]);
+            } else {
+                toast.error("Failed to load rejected artworks data");
+            }
         } finally {
             setLoading(false);
         }
@@ -52,9 +66,17 @@ export const useArtworks = () => {
         try {
             await approveArtworkApi(token, id);
             toast.success("Artwork approved successfully");
-            fetchPendingArtworks();
-            fetchData();
-            fetchRejectedArtworks();
+             setPendingArtworks(prev =>
+            prev.filter(item => item.artworkId !== id)
+        );
+
+        setArtworks(prev =>
+            prev.map(item =>
+                item.artworkId === id
+                    ? { ...item, auctionStatus: "Active" }
+                    : item
+            )
+        );
         } catch (error) {
             toast.error("Failed to approve artwork");
         }
@@ -64,21 +86,33 @@ export const useArtworks = () => {
         try {
             await rejectArtworkApi(token, id);
             toast.success("Artwork rejected successfully");
-            fetchRejectedArtworks();
-            fetchData();
-            fetchPendingArtworks();
+            const rejectedItem = pendingArtworks.find(
+            item => item.artworkId === id
+        );
+
+        setPendingArtworks(prev =>
+            prev.filter(item => item.artworkId !== id)
+        );
+
+        if (rejectedItem) {
+            setRejectedArtworks(prev => [
+                rejectedItem,
+                ...prev
+            ]);
+        }
 
         } catch (error) {
             toast.error("Failed to reject artwork");
+            console.log(error);
         }
     };
     useEffect(() => {
+        if (!token) return;
+
         fetchData();
         fetchRejectedArtworks();
         fetchPendingArtworks();
-        handleReject()
-        handleApprove()
-    }, [token ]);
+    }, [token]);
 
 
     return { artworks, loading, pendingArtworks, rejectedArtworks, handleApprove, handleReject };

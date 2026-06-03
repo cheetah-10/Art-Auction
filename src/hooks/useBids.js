@@ -7,6 +7,9 @@ export const useBids = (token, id) => {
     const navigate = useNavigate();
 
     const handleBuyNow = async () => {
+        if (!token){
+            toast.error("Please Login First")
+        }
         try {
             await buyNowArtworkApi(token, id);
             toast.success("Artwork purchased successfully!");

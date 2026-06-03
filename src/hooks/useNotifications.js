@@ -20,8 +20,17 @@ export const useNotifications = (token, id) => {
     };
 
     useEffect(() => {
+    if (!token) return;
+
+    fetchNotifications();
+
+    const interval = setInterval(() => {
         fetchNotifications();
-    }, [token]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+
+}, [token]);
 
     const handleMarkRead = async (id) => {
         try {

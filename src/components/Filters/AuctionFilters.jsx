@@ -61,7 +61,7 @@ const AuctionFilters = ({
             {/* Tags */}
             <div className="flex flex-wrap gap-2 col-span-2">
                 {tags.map(tag => {
-                    const isSelected = formData.TagIds.includes(tag.id);
+                    const isSelected = formData.TagIds.includes(tag.tagId);
 
                     return (
                         <button
@@ -70,8 +70,8 @@ const AuctionFilters = ({
                                 setFormData(prev => ({
                                     ...prev,
                                     TagIds: isSelected
-                                        ? prev.TagIds.filter(id => id !== tag.id)
-                                        : [...prev.TagIds, tag.id]
+                                        ? prev.TagIds.filter(id => id !== tag.tagId)
+                                        : [...prev.TagIds, tag.tagId]
                                 }));
                             }}
                             className={`

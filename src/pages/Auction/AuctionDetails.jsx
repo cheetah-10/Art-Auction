@@ -51,7 +51,6 @@ const ArtworkView = () => {
         <div className="min-h-screen bg-[#FDFDFD] dark:bg-art-navy-100 pt-24 pb-12 px-4">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                {/* Left Side: Visuals */}
                 <div className="lg:col-span-7 space-y-6">
                     <div className="relative group overflow-hidden border border-art-gold-20 bg-white dark:bg-art-navy-80 p-2 flex items-center justify-center h-[500px] md:h-[600px]">
 
@@ -61,7 +60,6 @@ const ArtworkView = () => {
                             className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
                         />
 
-                        {/* Watchlist Button */}
                         <button
                             onClick={addToWatchlist}
                             className="absolute top-6 right-6 bg-white/90 dark:bg-art-navy-100/90 p-3 rounded-full hover:text-art-terracotta-100 transition-colors shadow-xl z-10"
@@ -73,7 +71,6 @@ const ArtworkView = () => {
                     </div>
                 </div>
 
-                {/* Right Side: Details & Bidding */}
                 <div className="lg:col-span-5 space-y-8">
                     <header className="space-y-2">
                         <span className="text-art-gold-100 uppercase tracking-[0.3em] text-[10px] font-bold">{artwork.categoryName}</span>
@@ -90,7 +87,7 @@ const ArtworkView = () => {
                             {artwork.auctionStatus !== 'Sold' && artwork.auctionStatus !== 'Ended' && (<>
                                 <Trophy size={24} className="text-art-gold-100 inline-block mb-1" />
                                 <p onClick={handleBuyNow}
-                                    className="text-[13px] uppercase text-art-gold-100 dark:text-art-navy-40 mb-1 underline font-black ">Buy It Now</p>
+                                    className="text-[13px] uppercase text-art-gold-100 dark:text-art-navy-40 mb-1 underline font-black cursor-pointer ">Buy It Now</p>
                                 <p className="text-xl font-medium text-art-gold-80 dark:text-art-navy-20">${artwork.buyNowPrice}</p>
                             </>
                             )}
@@ -119,8 +116,7 @@ const ArtworkView = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    // disabled={artwork.auctionStatus !== 'Active'}
-                                    className={`  w-full bg-art-navy-100 dark:bg-art-gold-100 text-white dark:text-art-navy-100 py-4 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:opacity-90 transition-opacity`}
+                                    className={` w-full bg-art-navy-100 dark:bg-art-gold-100 text-white dark:text-art-navy-100 py-4 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:opacity-90 transition-opacity`}
                                 >
 
                                     <Gavel size={20} />
@@ -132,7 +128,6 @@ const ArtworkView = () => {
 
                     </div>
 
-                    {/* Bid History Accordion/List */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 border-b border-art-gold-20 pb-2">
                             <History size={18} className="text-art-gold-100" />

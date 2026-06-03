@@ -8,20 +8,17 @@ const createConnection = (auctionId, token, onBidReceived) => {
         .configureLogging(LogLevel.Information)
         .build();
 
-    //listener for receiving new bids
     connection.on('PlaceBid', (data) => {
         console.log('New bid received:', data);
         if (onBidReceived) {
             onBidReceived(data);
         }
     });
-    // start the connection and join the auction group
     const startConnection = async () => {
         try {
             await connection.start();
             console.log('Connected to auction hub');
 
-            // Join the auction group
             await connection.invoke('JoinAuction', auctionId.toString());
             console.log(`Joined auction ${auctionId}`);
         } catch (err) {
@@ -29,7 +26,6 @@ const createConnection = (auctionId, token, onBidReceived) => {
         }
     };
 
-    //stop the connection and leave the auction group
     const stopConnection = async () => {
     try {
 

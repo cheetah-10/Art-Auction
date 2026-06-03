@@ -61,13 +61,20 @@ export const extendAuctionApi = async (token, id, newEndTime) => {
     );
     return res.data;
 };
-//get all artworks for buyers
+//get all artworks
 export const getAllArtworksApi = async (filters = {}) => {
     const res = await axios.get(`${BASE_URL}`, {
         params: filters,
-        paramsSerializer: (params) => {
-            return new URLSearchParams(params).toString();
-        }
+       paramsSerializer: (params) => {
+    return Object.entries(params)
+        .map(([key, value]) => {
+            if (Array.isArray(value)) {
+                return value.map(v => `${key}=${v}`).join("&");
+            }
+            return `${key}=${value}`;
+        })
+        .join("&");
+}
     }
     );
     return res.data;

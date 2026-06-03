@@ -2,14 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Palette, Check, X, MoreVertical, Clock, DollarSign, Tag, Gavel, Image as ImageIcon, ExternalLink } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
-import {
-    getAllArtworksApi,
-    getPendingArtworksApi,
-    getRejectedArtworksApi,
-    approveArtworkApi,
-    rejectArtworkApi,
-    getArtworkByIdApi
-} from '../../api/artwork.api';
+import { getArtworkByIdApi} from '../../api/artwork.api';
 import { useArtworks } from '../../hooks/useArtworks';
 import Loader from '../../components/Loader/Loader';
 const AdminArtworks = () => {

@@ -60,7 +60,7 @@ const Watchlist = () => {
                                 <div className="col-span-5 flex items-center gap-4 mb-4 md:mb-0">
                                     <div className="w-12 h-16 bg-art-navy-20 flex-shrink-0 overflow-hidden">
                                         <img
-                                            src={"https://i.pinimg.com/736x/b6/10/f1/b610f182a716fdab9b9e50d742243b62.jpg"}
+                                            src={`${baseUrl}/Images/Artwork/${item.artworkImage}`}
                                             alt={item.title}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                                         />

@@ -46,7 +46,7 @@ const ArtworkForm = () => {
     }, [token]);
 
     useEffect(() => {
-        if (isEdit && tags.length > 0) { 
+        if (isEdit && tags.length > 0) {
             getArtworkByIdApi(id)
                 .then(data => {
                     const existingTagIds = data.tags.map(tagName => {
@@ -63,17 +63,17 @@ const ArtworkForm = () => {
                         AuctionEndTime: data.auctionEndTime?.slice(0, 16),
                         CategoryId: data.categoryId,
                         TagIds: existingTagIds,
-                        ArtworkImageURL: null
+                        ArtworkImageURL: `http://localhost:5000${data.artworkImage}`
                     });
 
-                    if (data.image) {
-                        setImagePreview(`https://i.pinimg.com/736x/b6/10/f1/b610f182a716fdab9b9e50d742243b62.jpg`);
+                    if (data.image || data.artworkImage) {
+                        setImagePreview(`http://localhost:5000${data.image || data.artworkImage}`);
                     }
                 })
                 .catch(err => console.error(err));
         }
-    }, [id, token, tags]); 
- 
+    }, [id, token, tags]);
+
 
 
     const handleInputChange = (e) => {
@@ -136,7 +136,7 @@ const ArtworkForm = () => {
                 await editArtworkApi(token, id, data);
                 toast.success("Masterpiece updated successfully!");
             } else {
-                await createArtworkApi(token, data); 
+                await createArtworkApi(token, data);
                 toast.success("Masterpiece listed successfully!");
             }
             navigate('/my-artworks');
