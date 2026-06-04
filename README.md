@@ -237,10 +237,10 @@ flowchart LR
 
 ### Auctions Page
 
-![Auctions](screenshots/auctions.png)
+![Auctions](Screenshots/auctions.png)
 
 The Auctions page displays the latest auction listings and includes filtering, trending art, and a list of live auctions available to buyers.
-![Auctions](screenshots/applied-filters.png)
+![Auctions](Screenshots/applied-filters.png)
 
 The Auctions page with filters
 
