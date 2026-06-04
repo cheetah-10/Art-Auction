@@ -246,115 +246,115 @@ The Auctions page with filters
 
 ### Auction Details
 
-![Auction Details](screenshots/auction-details.png)
-![Auction Details](screenshots/auction-details2.png)
+![Auction Details](Screenshots/auction-details.png)
+![Auction Details](Screenshots/auction-details2.png)
 
 Detailed auction view with current bid, remaining time, bid history, and action controls for watching or bidding.
 
 ### Create Auction
 
-![Create Auction](screenshots/create-auction.png)
-![Create Auction](screenshots/create-auction2.png)
+![Create Auction](Screenshots/create-auction.png)
+![Create Auction](Screenshots/create-auction2.png)
 
 Artist artwork upload and auction creation screen with category, tag, price, and timing fields.
 
 ### Logon
 
-![Login](screenshots/login.png)
+![Login](Screenshots/login.png)
 
 Login page where users can sign in and make actions.
 
 ### Register
 
-![Register](screenshots/register.png)
+![Register](Screenshots/register.png)
 
 Register page where users can create new account wheather as an artist or buyer.
 
 ### Profile
 
-![Profile](screenshots/profile.png)
+![Profile](Screenshots/profile.png)
 
 Profile page where users can view their account information, update personal settings, and manage their own data.
 
 ### Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshots/dashboard.png)
 
 Admin dashboard for marketplace overview, quick actions, and pending approvals.
 
 ### Categories Page
 
-![Categories](screenshots/categories.png)
+![Categories](Screenshots/categories.png)
 
 Categories page with curated artwork sections and category filters.
 
 ### My Artworks
 
-![My Artworks](screenshots/my-artworks.png)
+![My Artworks](Screenshots/my-artworks.png)
 
 Artist dashboard listing all artworks, auction state, and management actions.
 
 ### My Bids
 
-![My Bids](screenshots/my-bids.png)
+![My Bids](Screenshots/my-bids.png)
 
 Buyer bid history page with current bids, past auctions, and auction status.
 
 ### My Wins
 
-![My Wins](screenshots/my-wins.png)
+![My Wins](Screenshots/my-wins.png)
 
 Winner page for buyers to see completed auction wins and claim records.
 
 ### Watchlist
 
-![Watchlist](screenshots/watchlist.png)
+![Watchlist](Screenshots/watchlist.png)
 
 Saved watchlist page for buyers to follow auctions and receive updates on favorites.
 
 ### Notifications
 
-![Notifications](screenshots/notifications.png)
+![Notifications](Screenshots/notifications.png)
 
 Notification center for auction alerts, approvals, and event reminders.
 
 ### Artwork Management
 
-![Artwork Management](screenshots/artwork-management.png)
+![Artwork Management](Screenshots/artwork-management.png)
 
 Artwork management page for artists to update listings, view auction status, and access bid analytics.
 
 ### Admin Users
 
-![Admin Users](screenshots/admin-users.png)
+![Admin Users](Screenshots/admin-users.png)
 
 Admin users page for managing registered users, pending approvals, and account moderation.
 
 ### Admin Artworks
 
-![Admin Artworks](screenshots/admin-artworks.png)
+![Admin Artworks](Screenshots/admin-artworks.png)
 
 Admin artwork moderation area with approval and rejection controls.
 
 ### Admin Categories
 
-![Admin Categories](screenshots/admin-categories.png)
+![Admin Categories](Screenshots/admin-categories.png)
 
 Category management interface for creating, editing, and deleting categories.
 
 ### Add Category
 
-![add category](screenshots/addcategory.png)
+![add category](Screenshots/addcategory.png)
 
 
 ## 📱 Responsive Design
 
 ### Mobile
 
-![Mobile](screenshots/mobile2.png)
-![Mobile](screenshots/mobile.png)
-![Mobile](screenshots/my-wins.png)
-![Mobile](screenshots/my-bids.png)
+![Mobile](Screenshots/mobile2.png)
+![Mobile](Screenshots/mobile.png)
+![Mobile](Screenshots/my-wins.png)
+![Mobile](Screenshots/my-bids.png)
 
 Mobile layout delivers a vertical scrolling experience with condensed cards, collapsible menus, and streamlined auction actions.
 
